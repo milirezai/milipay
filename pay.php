@@ -2,15 +2,17 @@
 
 return [
 
-    "default" => "zibal",
+    "default" => "zarinpal",
 
     "drivers" => [
-        "zibal" => true
+        "zibal" => true,
+        "zarinpal" => true
     ],
 
 
     "gateways" => [
 
+        // start config zibal
         "zibal" => [
 
             "status" => true,
@@ -29,9 +31,9 @@ return [
                 'apiInquiry' => 'https://gateway.zibal.ir/v1/inquiry'
             ],
             "responseKey" => [
-                "trackId" => "trackId", // for response method trackId
+                "payId" => "trackId", // for response method payId
                 "result" => "result:100", // for response method codeMessage
-                "message" => "message:success" // for response method success
+                "successful" => "message:success" // for response method successful
             ],
 
             'codeMessage' => [
@@ -64,6 +66,73 @@ return [
             ]
 
         ],
+        // end config ibal
+
+        // start config zarinpal
+        "zarinpal" => [
+
+            "status" => true,
+            "manager" => \MiliPay\Gateways\Zarinpal\ZarinpalManager::class,
+
+            "settings" => [
+                "merchant" => "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                "callbackUrl" => 'app/callback',
+                "default_description" => 'Request payment in zarinpal'
+            ],
+
+            'api' => [
+                "apiRequest" => "https://sandbox.zarinpal.com/pg/v4/payment/request.json",
+                "apiStart" => "https://sandbox.zarinpal.com/pg/StartPay/",
+                "apiVerify" => "https://sandbox.zarinpal.com/pg/v4/payment/verify.json",
+                'apiInquiry' => 'https://sandbox.zarinpal.com/pg/v4/payment/inquiry.json'
+            ],
+            "responseKey" => [
+                "payId" => "authority", // for response method payId
+                "result" => "code:100", // for response method codeMessage
+                "successful" => "message:Success" // for response method successful
+            ],
+
+            'codeMessage' => [
+                -9 => '	خطای اعتبار سنجی',
+                -10 => 'ای پی یا مرچنت كد پذیرنده صحیح نیست.',
+                -11 => 'مرچنت کد فعال نیست، پذیرنده مشکل خود را به امور مشتریان زرین‌پال ارجاع دهد.',
+                -12 => 'تلاش بیش از دفعات مجاز در یک بازه زمانی کوتاه به امور مشتریان زرین پال اطلاع دهید',
+                -13 => 'خطای مربوط به محدودیت تراکنش. برای رفع این مورد نسبت به تکمیل مدارک خود با مراجعه به پشتیبانی اقدام نمایید.',
+                -14 => 'کال‌بک URL با دامنه ثبت شده درگاه مغایرت دارد.',
+                -15 => 'درگاه پرداخت به حالت تعلیق در آمده است، پذیرنده مشکل خود را به امور مشتریان زرین‌پال ارجاع دهد.',
+                -16 => 'سطح تایید پذیرنده پایین تر از سطح نقره ای است.',
+                -17 => 'محدودیت پذیرنده در سطح آبی',
+                -18 => 'امکان استف کد درگاه اختصاصی خود بر روی سایت یا جای دیگری را ندارید',
+                -19 => 'امکان ایجاد تراکنش برای این ترمینال امکان پذیر نیست',
+                100 => 'عملیات موفق',
+                -30 => 'پذیرنده اجازه دسترسی به سرویس تسویه اشتراکی شناور را ندارد.',
+                -31=> 'حساب بانکی تسویه را به پنل اضافه کنید. مقادیر وارد شده برای تسهیم درست نیست. پذیرنده جهت استفاده از خدمات سرویس تسویه اشتراکی شناور، باید حساب بانکی معتبری به پنل کاربری خود اضافه نماید.',
+                -32 => 'مبلغ وارد شده از مبلغ کل تراکنش بیشتر است.',
+                -33=> 'درصدهای وارد شده صحیح نیست.',
+                -34 => 'مبلغ وارد شده از مبلغ کل تراکنش بیشتر است.',
+                -35 => 'تعداد افراد دریافت کننده تسهیم بیش از حد مجاز است.',
+                -36  => 'حداقل مبلغ جهت تسهیم باید ۱۰۰۰۰ ریال باشد',
+                -37 => 'یک یا چند شماره شبای وارد شده برای تسهیم از سمت بانک غیر فعال است.',
+                -38	  => 'خطا٬عدم تعریف صحیح شبا٬لطفا دقایقی دیگر تلاش کنید.',
+                -39	  => 'خطایی رخ داده است به امور مشتریان زرین پال اطلاع دهید',
+                -40	 => 'پارامترهای اضافی نامعتبر',
+                -41  => 'حداکثر مبلغ پرداختی ۱۰۰ میلیون تومان است',
+                -50 => 'مبلغ پرداخت شده با مقدار مبلغ ارسالی در متد وریفای متفاوت است.',
+                -51  => 'پرداخت ناموفق',
+                -52	  => 'خطای غیر منتظره‌ای رخ داده است. پذیرنده مشکل خود را به امور مشتریان زرین‌پال ارجاع دهد.',
+                -53	 => 'پرداخت متعلق به این مرچنت کد نیست.',
+                -54	 => 'اتوریتی نامعتبر است.',
+                -55	 => 'تراکنش مورد نظر یافت نشد',
+                -60	 => 'امکان ریورس کردن تراکنش با بانک وجود ندارد',
+                -61	  => 'تراکنش موفق نیست یا قبلا ریورس شده است',
+                -62	  => 'آی پی درگاه ست نشده است',
+                -63	 => 'حداکثر زمان (۳۰ دقیقه) برای ریورس کردن این تراکنش منقضی شده است',
+                101	 => 'تراکنش وریفای شده است.',
+
+            ]
+
+        ],
+        // end config zarinpal
 
 
 
@@ -72,4 +141,3 @@ return [
 
 
 ];
-

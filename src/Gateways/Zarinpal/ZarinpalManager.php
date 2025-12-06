@@ -1,19 +1,18 @@
 <?php
 
-namespace MiliPay\Gateways\Zibal;
+namespace MiliPay\Gateways\Zarinpal;
 
 use MiliPay\Requester\BasicRequester;
 use MiliPay\Response\GatewayResponseHandler;
 use MiliPay\Support\Contract\Gateway;
 use MiliPay\Support\Contract\ResourceData;
 use MiliPay\Support\Trait\OptionalData;
-use Illuminate\Auth\Access\Gate;
 
-class ZibalManager extends BasicRequester implements ResourceData, Gateway
+class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
 {
     use OptionalData;
-    protected string $driver = 'zibal';
-    protected string $merchant = 'zibal';
+    protected string $driver = 'zarinpal';
+    protected string $merchant = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
     public function __construct(
         protected GatewayResponseHandler $responseHandler
     ){}
@@ -49,10 +48,7 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
 
     public function inquiry(): self
     {
-        $this->setDefaultConfig();
-        $response = $this->sendRequestInquiry();
-        $this->response = $response;
-        return $this;
+       //
     }
 
     public function response():GatewayResponseHandler
@@ -72,22 +68,21 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
     {
         $curl = curl_init();
 
-        curl_setopt_array($curl, [
+        curl_setopt_array($curl, array(
             CURLOPT_URL => $this->getApiRequest(),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
+            CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($this->buildRequestData()),
-            CURLOPT_HTTPHEADER => [
+            CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Accept: application/json'
-            ],
-        ]);
-
+            ),
+        ));
         $response = curl_exec($curl);
         curl_close($curl);
         return (array)json_decode($response);
@@ -97,21 +92,21 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
     {
         $curl = curl_init();
 
-        curl_setopt_array($curl, [
+        curl_setopt_array($curl, array(
             CURLOPT_URL => $this->getApiVerify(),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
+            CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($this->buildVerifyRequestData()),
-            CURLOPT_HTTPHEADER => [
+            CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Accept: application/json'
-            ],
-        ]);
+            ),
+        ));
 
         $response = curl_exec($curl);
         curl_close($curl);
@@ -128,22 +123,21 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
     {
         $curl = curl_init();
 
-        curl_setopt_array($curl, [
+        curl_setopt_array($curl, array(
             CURLOPT_URL => $this->getApiInquiry(),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
+            CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($this->buildInquiryRequestData()),
-            CURLOPT_HTTPHEADER => [
+            CURLOPT_POSTFIELDS => $this->buildInquiryRequestData(),
+            CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Accept: application/json'
-            ],
-        ]);
-
+            ),
+        ));
         $response = curl_exec($curl);
         curl_close($curl);
         return (array)json_decode($response);
@@ -152,13 +146,14 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
     public function buildRequestData(): array
     {
         $requestData = [
-            'merchant' => $this->getMerchant(),
+            'merchant_id' => $this->getMerchant(),
             'amount' => $this->getAmount(),
-            'callbackUrl' => $this->getCallbackUrl(),
+            'callback_url' => $this->getCallbackUrl(),
             'description' => $this->getDescription(),
-            'orderId' => $this->getOrderId(),
-            'mobile' => $this->getMobile(),
-            'nationalCode' => (string) $this->getNationalCode(),
+            "metadata" => [
+                'mobile' => $this->getMobile(),
+                "email" => $this->getEmail()
+            ]
         ];
 
         $filteredData = array_filter($requestData, function($value) {
@@ -171,8 +166,9 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
     public function buildVerifyRequestData(): array
     {
         $requestData = [
-            'merchant' => $this->getMerchant(),
-            'trackId' => $this->getPayId()
+            'merchant_id' => $this->getMerchant(),
+            'amount' => $this->getAmount(),
+            'authority' => $this->getPayId()
         ];
         $filteredData = array_filter($requestData, function($value) {
             return $value !== null && $value !== '' && $value != 0;
@@ -184,8 +180,8 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
     public function buildInquiryRequestData(): array
     {
         $requestData = [
-            'merchant' => $this->getMerchant(),
-            'trackId' => $this->getPayId()
+            'merchant_id' => $this->getMerchant(),
+            'authority' => $this->getPayId()
         ];
         $filteredData = array_filter($requestData, function($value) {
             return $value !== null && $value !== '' && $value != 0;

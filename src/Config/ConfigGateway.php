@@ -98,14 +98,5 @@ class ConfigGateway
         $key = $this->all()['responseKey'];
         return $key;
     }
-    private function config()
-    {
-        if (!File::exists(config_path('pay.php')))
-            errorHandler()
-                ->set('To get the payment driver configuration, please publish the config file first.')
-                ->log()
-                ->info()
-                ->toException();
-    }
 }
 

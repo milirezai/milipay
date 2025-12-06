@@ -176,21 +176,21 @@ trait OptionalData
         return $this->nationalCode;
     }
 
-    public function trackId(int $trackId):static
+    public function payId(int|string $payId):static
     {
-        if ($trackId <= 0){
+        if (empty($payId)){
             errorHandler()
                 ->set('trackId must be greater than zero.')
                 ->log()
                 ->info();
             return $this;
         }
-        $this->trackId = $trackId;
+        $this->payId = $payId;
         return $this;
     }
-    protected function getTrackId():int
+    protected function getPayId():int|string
     {
-        return $this->trackId;
+        return $this->payId;
     }
 
     protected function getAmount():int
@@ -235,5 +235,22 @@ trait OptionalData
     public function driverName(): string
     {
         return $this->driver;
+    }
+
+    public function email(string $email): self
+    {
+        if ($email != ''){
+            $this->email = $email;
+            return $this;
+        }
+        errorHandler()
+            ->set('email required')
+            ->log()
+            ->info();
+        return $this;
+    }
+    protected function getEmail():string
+    {
+        return $this->email;
     }
 }

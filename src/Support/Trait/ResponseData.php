@@ -4,18 +4,18 @@ namespace MiliPay\Support\Trait;
 
 trait ResponseData
 {
-    protected function getResponse():array
+    protected function get():array
     {
         return $this->response;
     }
     public function successful():bool
     {
         $gateConfig = gateConfig()->driver($this->gateway->driverName())->responseKey();
-        $value = responseKeyValuetoArray($gateConfig['message']);
+        $value = responseKeyValuetoArray($gateConfig['successful']);
         return $this->response[$value[0]] === $value[1] ? true : false;
     }
 
-    public function trackId(): int
+    public function payId(): int
     {
         $gateConfig = gateConfig()->driver($this->gateway->driverName())->responseKey();
         return $this->response[$gateConfig['trackId']];

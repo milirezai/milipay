@@ -16,9 +16,10 @@ abstract class BasicRequester implements RequestHandler
     protected int $amount = 0;
     protected string $description = '';
     protected int $orderId = 0;
+    protected string $email = '';
     protected string $mobile = '';
     protected int $nationalCode = 0;
-    protected int $trackId = 0;
+    protected int|string $payId = 0;
     protected array $response = [];
     abstract public function sendRequest();
     abstract public function sendRequestVerify();
