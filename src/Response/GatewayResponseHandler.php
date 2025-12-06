@@ -13,12 +13,12 @@ class GatewayResponseHandler implements ResponseHandler
 
     public function toJson()
     {
-        return json_encode($this->getResponse());
+        return json_encode($this->get());
     }
 
     public function toArray():array
     {
-        return $this->getResponse();
+        return $this->get();
     }
 
     public function init(array $response, object $gateway): self
