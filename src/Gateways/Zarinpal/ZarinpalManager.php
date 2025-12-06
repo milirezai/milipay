@@ -48,7 +48,10 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
 
     public function inquiry(): self
     {
-       //
+       $this->setDefaultConfig();
+        $response = $this->sendRequestInquiry();
+        $this->response = $response;
+        return $this;
     }
 
     public function response():GatewayResponseHandler
@@ -150,10 +153,6 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
             'amount' => $this->getAmount(),
             'callback_url' => $this->getCallbackUrl(),
             'description' => $this->getDescription(),
-            "metadata" => [
-                'mobile' => $this->getMobile(),
-                "email" => $this->getEmail()
-            ]
         ];
 
         $filteredData = array_filter($requestData, function($value) {
