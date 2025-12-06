@@ -17,10 +17,3 @@ if (!function_exists('errorHandler')){
         return app()->make(PaymentErrorHandler::class);
     }
 }
-//
-if (!function_exists('responseKeyValuetoArray')){
-    function responseKeyValuetoArray(string $value, string $delimiter = ':'): array
-    {
-        return explode($delimiter, $value);
-    }
-}

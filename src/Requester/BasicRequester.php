@@ -3,6 +3,7 @@
 namespace MiliPay\Requester;
 
 use MiliPay\Support\Contract\RequestHandler;
+use MiliPay\Support\Contract\ResponseAdapterHandler;
 
 abstract class BasicRequester implements RequestHandler
 {
@@ -21,6 +22,7 @@ abstract class BasicRequester implements RequestHandler
     protected int $nationalCode = 0;
     protected int|string $payId = 0;
     protected array $response = [];
+    abstract protected function adapter():ResponseAdapterHandler;
     abstract public function sendRequest();
     abstract public function sendRequestVerify();
     abstract public function start();

@@ -2,9 +2,9 @@
 
 namespace MiliPay\Support\Contract;
 
-interface ResponseHandler
+interface ResponseAdapterHandler
 {
-    public function init(object $adapter):static;
+    public function init(array $response):static;
 
     public function toJson();
 

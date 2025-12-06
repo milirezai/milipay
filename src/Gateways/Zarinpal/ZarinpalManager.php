@@ -4,6 +4,7 @@ namespace MiliPay\Gateways\Zarinpal;
 
 use MiliPay\Requester\BasicRequester;
 use MiliPay\Response\GatewayResponseHandler;
+use MiliPay\ResponseAdapters\ZarinpalAdapter;
 use MiliPay\Support\Contract\Gateway;
 use MiliPay\Support\Contract\ResourceData;
 use MiliPay\Support\Trait\OptionalData;
@@ -13,6 +14,7 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
     use OptionalData;
     protected string $driver = 'zarinpal';
     protected string $merchant = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
+    protected ZarinpalAdapter $adapter;
     public function __construct(
         protected GatewayResponseHandler $responseHandler
     ){}
@@ -54,17 +56,18 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
         return $this;
     }
 
+    public function adapter():ZarinpalAdapter
+    {
+        return $this->adapter->init($this->response);
+    }
     public function response():GatewayResponseHandler
     {
-        return $this->responseHandler->init(
-            gateway: $this,
-            response: $this->response
-        );
+        return $this->responseHandler->init($this->adapter());
     }
 
     public function pay()
     {
-        if ($this->response()->result() && $this->response()->successful())
+        if ($this->response()->isSuccessful())
             return $this->start();
     }
     public function sendRequest(): array
@@ -119,7 +122,7 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
     public function start()
     {
         return redirect()
-            ->away($this->getApiStart().$this->response()->payId());
+            ->away($this->getApiStart().$this->response()->getPayId());
     }
 
     public function sendRequestInquiry()

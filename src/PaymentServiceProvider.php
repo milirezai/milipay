@@ -14,8 +14,7 @@ class PaymentServiceProvider extends ServiceProvider
     {
          $this->publishes([
             gateConfig()->setFileConfigPath()->getFileConfigPath() => config_path('pay.php')
-        ],'payHub-config');
-        //  php artisan vendor:publish --tag=payHub-config
+        ],'milipay-config');
     }
 
     /**

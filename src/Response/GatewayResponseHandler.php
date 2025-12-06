@@ -3,28 +3,49 @@
 namespace MiliPay\Response;
 
 use MiliPay\Support\Contract\ResponseHandler;
-use MiliPay\Support\Trait\ResponseData;
 
 class GatewayResponseHandler implements ResponseHandler
 {
-    use ResponseData;
-    protected array $response;
-    protected object $gateway;
+
+    protected ResponseAdapterHandler $adapterHandler;
+    public function init(object $adapter):static
+    {
+        $this->adapterHandler = $adapter;
+        return $this->adapterHandler;
+    }
 
     public function toJson()
     {
-        return json_encode($this->get());
+        return $this->adapterHandler->toJson();
     }
 
-    public function toArray():array
+    public function toArray()
     {
-        return $this->get();
+        return $this->adapterHandler->toArray();
     }
 
-    public function init(array $response, object $gateway): self
+    public function isSuccessful(): bool
     {
-        $this->response = $response;
-        $this->gateway = $gateway;
-        return $this;
+        return $this->adapterHandler->isSuccessful();
+    }
+
+    public function isFailed(): bool
+    {
+        return $this->adapterHandler->isFailed();
+    }
+
+    public function getMessage(): string
+    {
+        return $this->getMessage();
+    }
+
+    public function getPayId(): int|string
+    {
+        return $this->adapterHandler->getPayId();
+    }
+
+    public function getCodeMessage():string|null
+    {
+        return $this->adapterHandler->getCodeMessage();
     }
 }

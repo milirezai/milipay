@@ -4,16 +4,17 @@ namespace MiliPay\Gateways\Zibal;
 
 use MiliPay\Requester\BasicRequester;
 use MiliPay\Response\GatewayResponseHandler;
+use MiliPay\ResponseAdapters\ZibalAdapter;
 use MiliPay\Support\Contract\Gateway;
 use MiliPay\Support\Contract\ResourceData;
 use MiliPay\Support\Trait\OptionalData;
-use Illuminate\Auth\Access\Gate;
 
 class ZibalManager extends BasicRequester implements ResourceData, Gateway
 {
     use OptionalData;
     protected string $driver = 'zibal';
     protected string $merchant = 'zibal';
+    protected ZibalAdapter $adapter;
     public function __construct(
         protected GatewayResponseHandler $responseHandler
     ){}
@@ -54,18 +55,19 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
         $this->response = $response;
         return $this;
     }
+    protected function adapter(): ZibalAdapter
+    {
+        return $this->adapter->init($this->response);
+    }
 
     public function response():GatewayResponseHandler
     {
-        return $this->responseHandler->init(
-            gateway: $this,
-            response: $this->response
-        );
+        return $this->responseHandler->init($this->adapter());
     }
 
     public function pay()
     {
-        if ($this->response()->result() && $this->response()->successful())
+        if ($this->response()->isSuccessful())
             return $this->start();
     }
     public function sendRequest(): array
@@ -121,7 +123,7 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
     public function start()
     {
         return redirect()
-            ->away($this->getApiStart().$this->response()->payId());
+            ->away($this->getApiStart().$this->response()->getPayId());
     }
 
     public function sendRequestInquiry()
