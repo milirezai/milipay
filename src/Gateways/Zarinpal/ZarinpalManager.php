@@ -7,6 +7,7 @@ use MiliPay\Response\GatewayResponseHandler;
 use MiliPay\ResponseAdapters\ZarinpalAdapter;
 use MiliPay\Support\Contract\Gateway;
 use MiliPay\Support\Contract\ResourceData;
+use MiliPay\Support\Contract\ResponseAdapterHandler;
 use MiliPay\Support\Trait\OptionalData;
 
 class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
@@ -14,9 +15,10 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
     use OptionalData;
     protected string $driver = 'zarinpal';
     protected string $merchant = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx';
-    protected ZarinpalAdapter $adapter;
+
     public function __construct(
-        protected GatewayResponseHandler $responseHandler
+        protected GatewayResponseHandler $responseHandler,
+        protected ResponseAdapterHandler $adapter
     ){}
 
     public function amount(int $amount): self
@@ -60,6 +62,7 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
     {
         return $this->adapter->init($this->response);
     }
+
     public function response():GatewayResponseHandler
     {
         return $this->responseHandler->init($this->adapter());

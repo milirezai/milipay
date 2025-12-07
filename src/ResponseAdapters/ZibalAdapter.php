@@ -30,7 +30,7 @@ class ZibalAdapter implements ResponseAdapterHandler
 
     public function isFailed(): bool
     {
-        return ! $this->isSuccessful();
+        return !$this->isSuccessful();
     }
 
     public function getMessage(): string

@@ -7,11 +7,11 @@ use MiliPay\Support\Contract\ResponseHandler;
 class GatewayResponseHandler implements ResponseHandler
 {
 
-    protected ResponseAdapterHandler $adapterHandler;
+    protected $adapterHandler;
     public function init(object $adapter):static
     {
         $this->adapterHandler = $adapter;
-        return $this->adapterHandler;
+        return $this;
     }
 
     public function toJson()
@@ -36,7 +36,7 @@ class GatewayResponseHandler implements ResponseHandler
 
     public function getMessage(): string
     {
-        return $this->getMessage();
+        return $this->adapterHandler->getMessage();
     }
 
     public function getPayId(): int|string
