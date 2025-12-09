@@ -5,6 +5,7 @@ namespace MiliPay;
 use Illuminate\Support\ServiceProvider;
 use MiliPay\Gateways\Zarinpal\ZarinpalManager;
 use MiliPay\Gateways\Zibal\ZibalManager;
+use MiliPay\Manager\MiliPay;
 use MiliPay\Response\GatewayResponseHandler;
 use MiliPay\ResponseAdapters\ZarinpalAdapter;
 use MiliPay\ResponseAdapters\ZibalAdapter;
@@ -30,6 +31,10 @@ class PaymentServiceProvider extends ServiceProvider
         $this->app->when(ZibalManager::class)
             ->needs(ResponseAdapterHandler::class)
             ->give(ZibalAdapter::class);
+
+        $this->app->bind('milipay-facade',function (){
+            return $this->app->make(MiliPay::class);
+        });
     }
 
     /**

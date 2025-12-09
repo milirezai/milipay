@@ -7,7 +7,7 @@ use MiliPay\Support\Contract\GatewayManager;
 use MiliPay\Support\Trait\ConnectionMethod;
 use MiliPay\Support\Trait\Serviceable;
 
-class Payment implements GatewayManager
+class MiliPay implements GatewayManager
 {
     protected string $driver = '';
 
