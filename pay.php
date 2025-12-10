@@ -20,8 +20,7 @@ return [
 
             "settings" => [
                 "merchant" => "zibal",
-                "callbackUrl" => 'app/callback',
-                "default_description" => 'Request payment in Zibal'
+                "callbackUrl" => 'app/callback'
             ],
 
             'api' => [
@@ -30,12 +29,6 @@ return [
                 "apiVerify" => "https://gateway.zibal.ir/v1/verify",
                 'apiInquiry' => 'https://gateway.zibal.ir/v1/inquiry'
             ],
-            "responseKey" => [
-                "payId" => "trackId", // for response method payId
-                "result" => "result:100", // for response method codeMessage
-                "successful" => "message:success" // for response method successful
-            ],
-
             'codeMessage' => [
                 -1 => 'در انتظار پرداخت',
                 -2 => 'خطای داخلی',

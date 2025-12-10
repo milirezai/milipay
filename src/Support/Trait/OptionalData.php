@@ -198,26 +198,27 @@ trait OptionalData
         return $this->amount;
     }
     public function apis(
-        string $apiRequest = null, string $apiStart = null,
-        string $apiVerify = null, $callback = null
+        string $apiRequest = '', string $apiStart = '',
+        string $apiVerify = '', $callback = '' , $apiInquiry = ''
     ):static
     {
-            $apiRequest != null ? $this->apiRequest($apiRequest) :'';
-            $apiStart != null ? $this->apiStart($apiStart) :'';
-            $apiVerify != null ? $this->apiVerify($apiVerify) :'';
-            $callback != null ? $this->callbackUrl($callback) :'';
+          !empty($apiRequest) ? $this->apiRequest($apiRequest) :'';
+          !empty($apiStart) ? $this->apiStart($apiStart) :'';
+          !empty($apiVerify) ? $this->apiVerify($apiVerify) :'';
+          !empty($apiInquiry) ? $this->apiInquiry($apiInquiry) :'';
+          !empty($callback) ? $this->callbackUrl($callback) :'';
 
         return $this;
     }
     public function optional(
-        int $orderId = null, string $mobile = null,
-        int $natinalCode = null, string $description = null
+        int $orderId = 0 , string $mobile = '',
+        int $natinalCode = 0 , string $description = ''
     ):static
     {
-        $orderId != null ? $this->orderId($orderId) :'';
-        $mobile != null ? $this->mobile($mobile) :'';
-        $natinalCode != null ? $this->nationalCode($natinalCode) :'';
-        $description != null ? $this->description($description) :'';
+        $orderId > 0 ? $this->orderId($orderId) :'';
+        !empty($mobile) ? $this->mobile($mobile) :'';
+        strlen($natinalCode) > 0 ? $this->nationalCode($natinalCode) :'';
+        !empty($description) ? $this->description($description) :'';
         return $this;
     }
 

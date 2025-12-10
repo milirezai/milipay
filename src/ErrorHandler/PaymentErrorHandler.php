@@ -41,19 +41,28 @@ class PaymentErrorHandler implements ErrorHandler
 
     public function error(): self
     {
-        Log::error($this->get());
-        return $this;
+        if ($this->log){
+            Log::error($this->get());
+            return $this;
+        }
+        $this->set('Not allowed to use the logging system.')->toException();
     }
 
     public function warning(): self
     {
-        Log::warning($this->get());
-        return $this;
+        if ($this->log){
+            Log::warning($this->get());
+            return $this;
+        }
+        $this->set('Not allowed to use the logging system.')->toException();
     }
 
     public function info(): self
     {
-        Log::info($this->get());
-        return $this;
+        if ($this->log){
+            Log::info($this->get());
+            return $this;
+        }
+        $this->set('Not allowed to use the logging system.')->toException();
     }
 }

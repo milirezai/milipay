@@ -3,6 +3,8 @@
 namespace MiliPay;
 
 use Illuminate\Support\ServiceProvider;
+use MiliPay\Config\ConfigGateway;
+use MiliPay\ErrorHandler\PaymentErrorHandler;
 use MiliPay\Gateways\Zarinpal\ZarinpalManager;
 use MiliPay\Gateways\Zibal\ZibalManager;
 use MiliPay\Manager\MiliPay;
@@ -35,6 +37,15 @@ class PaymentServiceProvider extends ServiceProvider
         $this->app->bind('milipay-facade',function (){
             return $this->app->make(MiliPay::class);
         });
+
+        $this->app->bind('milipay-error-handler-facade',function (){
+            return $this->app->make(PaymentErrorHandler::class);
+        });
+
+        $this->app->bind('milipay-config-gateway-facade',function (){
+            return $this->app->make(ConfigGateway::class);
+        });
+
     }
 
     /**

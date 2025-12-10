@@ -93,10 +93,5 @@ class ConfigGateway
         return config('pay.default');
     }
 
-    public function responseKey():array
-    {
-        $key = $this->all()['responseKey'];
-        return $key;
-    }
 }
 
