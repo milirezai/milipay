@@ -25,19 +25,24 @@ class ZarinpalAdapter implements ResponseAdapterHandler
 
     public function isSuccessful(): bool
     {
-        $data = (array)$this->toArray()['data'];
-        return $data['message'] == 'Success' ? true : false;
+        return $this->getMessage() == 'Success' ? true : false;
     }
 
     public function isFailed(): bool
     {
-       return ! $this->isSuccessful();
+       return !$this->isSuccessful();
     }
 
     public function getMessage(): string
     {
        $data = (array)$this->toArray()['data'];
-       return $data['message'];
+       $dataMessageError = (array)$this->toArray()['errors'];
+       if (empty($data)){
+           $message = $dataMessageError;
+       }else{
+           $message = $data;
+       }
+       return $message['message'];
     }
 
     public function getPayId(): int|string

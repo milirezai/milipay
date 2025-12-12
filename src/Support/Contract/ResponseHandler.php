@@ -19,7 +19,4 @@ interface ResponseHandler
     public function getPayId():int|string;
 
     public function getCodeMessage():string|null;
-    public function whenSuccess(Closure $success, Closure $failed);
-    public function whenFailed(Closure $failed, Closure $success);
-
 }

@@ -3,6 +3,7 @@
 namespace MiliPay\Response;
 
 use MiliPay\Support\Contract\ResponseHandler;
+use Closure;
 
 class GatewayResponseHandler implements ResponseHandler
 {
@@ -61,7 +62,7 @@ class GatewayResponseHandler implements ResponseHandler
 
     public function whenFailed(Closure $failed, Closure $success)
     {
-        if (!$this->isSuccessful()){
+        if ($this->isFailed()){
             call_user_func($failed,$this);
         }
         else{
