@@ -48,7 +48,6 @@ milipay/
 │   ├─ Helper/
 │  │     ├─ helper.php
 │   ├─ Trait/
-│  │     ├─ ConnectionMethod::class
 │  │     ├─ OptionalData::class
 │  │     ├─ Serviceable::class
 ├─ doc/
@@ -88,9 +87,10 @@ Some of the features:
 
 
 
+<h3>Payment request cycle</h3>
 
 
-
+It all starts when you call the MilliPay class. It doesn't matter how you call it. Then this class gives you a few different methods to use, which I explained in its own time and place, and there's no need for more here. Finally, you access one of the drivers, the same class that manages a payment gateway, through the MilliPay class. Now you need to specify your goal, what operation you want to perform on the gateway: send a request for payment, confirm a payment, or inquire about a payment. After you have specified your goal, you need to know what information you need to send for the goal. For confirmation requests, gateways have different behaviors. Some only need the payment ID for confirmation, while some ask you for both the payment ID and the amount paid. You can do two things: send both the payment ID and the amount for all gateways, or you can check which gateways require an amount for confirmation. For payment inquiries, all gateways only need the payment ID, and for payment, The main goal and operation that you can do is the main data that you need to send is the amount. Some portals also require explanations, so I think you should send a short explanation for all portals, and the rest of the data is not necessary for payment, and sending them depends on your choice. Okay, now we have both defined our goal and we know what data we need to send for each attribute. Then, depending on the operation, we enter one of the request methods of the handler. There, only the request is sent. The data template is created in another method. These request handlers send our request to the portal and receive a response. For each of the operation goals, a method is provided in this method. We store the request response handler in the response property and return the class object. Now, in the continuation of this chain of methods, we can consider and use two paths: either we want to go to the portal and complete the operation, or we want to save the response, or something else. To go to the portal, we need to use the method Calling the P from the object will redirect us to the portal. If we want to receive the response, we call the Response method from the object. This method sends an instance of the main Response handler class, which is very professionally written and has many methods to use.
 
 
 <h3>Installation method:</h3>
@@ -267,7 +267,7 @@ use MiliPay\Manager\MiliPay;
 public function (Milipay $milipay)
     {
           $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->amount(150000)
         ->callbackUrl('http://localhost:8000/callback')
         ->request();
@@ -276,26 +276,67 @@ public function (Milipay $milipay)
 
 ```
 
-The Milipay class handles our connection and selection to the main gateway classes.
 
 
-This class includes the gate() and with() methods.
+Example with functional methods
+
+```php
+
+$pay = MiliPay::when(function (){
+    return $type == 1 ? true : false;
+})->via('zibal','zarinpal')
+    ->amount(24234)
+    ->request();
+$pay->response()
+    ->whenSuccess(function ($response) use ($pay){
+        Payment::create($response->toJson());
+        return $pay->pay();
+    },function ($response){
+        Log::error($response->toArray());
+    });
+```
 
 
-gate() method:
+The Milipay class manages our connection and selection to the main gateway classes.
 
-Automatically selects the default port written in the config file and uses that port for payment and other processes.
 
-method with():
+This class provides the snake with default methods for selecting port drivers.
 
-If you want to change the default port and don't want to make any changes to the configuration file, you can use this method and give it the port name, but the port must be one of our supported ports for the program to work properly.
+
+method viaDefaultDriver(): Gateway :
+
+
+I explained above that a default driver is set in the configuration file, so if we want to use the same driver, we can call this method to give us an instance of the class object of the same default driver.
+
+
+method when(\Closure $closure): self :
+
+
+If we want the default driver to be selected based on a condition, we can use this method, which takes a closure as an argument.
+
+
+method via(string $driver, string $driverDefault = ''): Gateway :
+
+
+Well, this method should be called just after the method. The execution of this method depends on the method and the closure that accompanies it. This method takes two arguments. If the result of the closure inside the method is true, i.e., true, the first argument of this method is selected as the driver. But if the result of the closure is false, i.e., incorrect, the second argument of this method is selected as the driver.
+
+
+The second argument of this method is not mandatory, and if it is not, for the second state, i.e., false state, Closure itself configures the default driver package in the file.
+
 
 
 ```php
-    $pay = $milipay
-        ->with('zibal')
-        ->gate()
+MiliPay::when(function (){
+    return true;
+})->via('zibal')
 ```
+
+```php
+MiliPay::when(function (){
+    return false;
+})->via('zibal','zarinpal')
+```
+
 
 
 You may want to send additional information along with the price to request payment. You can see a complete example of the methods that are intended for this task and supported by most portals.
@@ -303,7 +344,7 @@ You may want to send additional information along with the price to request paym
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->amount(150000)
         ->orderId(1)
         ->description('pay with package milipay')
@@ -323,7 +364,7 @@ This method takes four values.
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->amount(150000)
         ->optional(
         orderId: 1,
@@ -344,7 +385,7 @@ After payment, you can use the verification method to receive your ID card.
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->payId(424234234234)
         ->verify();
      dd($pay->response()->toArray());
@@ -355,7 +396,7 @@ In the case of portals like Zarinpal, there is also a requirement for a certain 
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
          ->amount(150000)
         ->payId(424234234234)
         ->verify();
@@ -372,7 +413,7 @@ To inquire about payment, if you need to, you can proceed as follows:
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->payId(424234234234)
         ->inquiry();
      dd($pay->response()->toArray());
@@ -394,7 +435,7 @@ Your json method sends the response as json.
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->amount(150000)
         ->callbackUrl('http://localhost:8000/callback')
         ->request();
@@ -463,6 +504,42 @@ $pay->response()->getCodeMessage()
 
 
 
+method whenSuccess(Closure $success, Closure $failed) :
+
+You may want to perform an operation depending on the response received from the payment gateway. This method does this for you. This method checks whether the response received from the gateway is equal to true or not. This method takes an argument that both are closures. This method checks if the response received from the gateway is equal to true, i.e. true, it executes the first closure, and if it is equal to false, i.e. wrong, it executes the second closure. Each of these closures has access to the response object and you can also use responses inside closures
+
+
+```php 
+MiliPay::viaDefaultDriver()
+    ->amount(24234)
+    ->request()
+    ->response()
+    ->whenSuccess(function ($response){
+        // run if message = success
+    },function ($response){
+        // run if message != success
+    });
+```
+
+
+method whenFailed(Closure $failed, Closure $success) :
+
+This method does exactly the same thing as the above method, but in reverse, meaning it checks for a false state, meaning an error in the gateway response
+
+```php 
+MiliPay::viaDefaultDriver()
+    ->amount(24234)
+    ->request()
+    ->response()
+    ->whenFailed(function ($response){
+        // run if message != success
+    },function ($response){
+        // run if message = success
+    });
+```
+
+
+
 
 <h4>apis:</h4>
 
@@ -472,7 +549,7 @@ You can set APIs separately from the config and default files, inside the code a
 
 ```php 
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->apiRequest("https://gateway.zibal.ir/v1/request")
         ->apiStart("https://gateway.zibal.ir/start/")
         ->callbackUrl('http://localhost:8000/callback')
@@ -483,7 +560,7 @@ You can set APIs separately from the config and default files, inside the code a
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->apiVerify("https://gateway.zibal.ir/v1/verify")
         ->payId(424234234234)
         ->verify();
@@ -491,7 +568,7 @@ You can set APIs separately from the config and default files, inside the code a
 
 ```php
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->apiInquiry("https://gateway.zibal.ir/v1/inquiry")
         ->payId(424234234234)
         ->inquiry();
@@ -507,7 +584,7 @@ The order of the arguments in this method is not important and it is not necessa
 
 ```php 
     $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->apis(
          apiRequest: "https://gateway.zibal.ir/v1/request",
             apiStart: "https://gateway.zibal.ir/start/",
@@ -524,7 +601,7 @@ You can also set your merchant ID separately from the config file using the comm
 
 ```php
      $pay = $milipay
-        ->gate()
+        ->viaDefaultDriver()
         ->merchant('zibal')
         ->amount(150000)
         ->request();
@@ -541,7 +618,7 @@ use MiliPay\Facade\MiliPay;
 
 public function ()
     {
-     $pay = MiliPay::gate()
+     $pay = MiliPay::viaDefaultDriver()
         ->amount(150000)
         ->callbackUrl('http://localhost:8000/callback')
         ->request();

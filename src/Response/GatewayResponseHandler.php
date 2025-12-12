@@ -48,4 +48,24 @@ class GatewayResponseHandler implements ResponseHandler
     {
         return $this->adapterHandler->getCodeMessage();
     }
+
+    public function whenSuccess(Closure $success, Closure $failed)
+    {
+        if ($this->isSuccessful()){
+            call_user_func($success,$this);
+        }
+        else{
+            call_user_func($failed,$this);
+        }
+    }
+
+    public function whenFailed(Closure $failed, Closure $success)
+    {
+        if (!$this->isSuccessful()){
+            call_user_func($failed,$this);
+        }
+        else{
+            call_user_func($success,$this);
+        }
+    }
 }

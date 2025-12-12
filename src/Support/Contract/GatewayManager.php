@@ -4,5 +4,8 @@ namespace MiliPay\Support\Contract;
 
 interface GatewayManager
 {
-    public function gate():Gateway;
+    public function viaDefaultDriver():Gateway;
+
+    public function when(\Closure $closure):self;
+    public function via(string $driver, string $driverDefault = ''):Gateway;
 }
