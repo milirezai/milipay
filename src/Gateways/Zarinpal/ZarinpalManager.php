@@ -21,7 +21,7 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
         protected ResponseAdapterHandler $adapter
     ){}
 
-    public function amount(int $amount): self
+    public function amount(float $amount): self
     {
         if ($amount > 0){
             $this->amount = $amount;

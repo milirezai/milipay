@@ -50,23 +50,35 @@ class GatewayResponseHandler implements ResponseHandler
         return $this->adapterHandler->getCodeMessage();
     }
 
-    public function whenSuccess(Closure $success, Closure $failed)
+    public function whenSuccess($success, Closure $failed)
     {
         if ($this->isSuccessful()){
-            call_user_func($success,$this);
+            $response = call_user_func($success,$this);
+            if ($response instanceof \Illuminate\Http\RedirectResponse){
+                return $response;
+            }
         }
         else{
-            call_user_func($failed,$this);
+            $response = call_user_func($failed,$this);
+            if ($response instanceof \Illuminate\Http\RedirectResponse){
+                return $response;
+            }
         }
     }
 
     public function whenFailed(Closure $failed, Closure $success)
     {
         if ($this->isFailed()){
-            call_user_func($failed,$this);
+            $response =  call_user_func($failed,$this);
+            if ($response instanceof \Illuminate\Http\RedirectResponse){
+                return $response;
+            }
         }
         else{
-            call_user_func($success,$this);
+            $response = call_user_func($success,$this);
+            if ($response instanceof \Illuminate\Http\RedirectResponse){
+                return $response;
+            }
         }
     }
 }

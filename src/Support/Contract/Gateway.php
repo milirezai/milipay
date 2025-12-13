@@ -6,7 +6,7 @@ use MiliPay\Response\GatewayResponseHandler;
 
 interface Gateway
 {
-    public function amount(int $amount):self;
+    public function amount(float $amount):self;
     public function request():self;
     public function verify():self;
     public function inquiry():self;
