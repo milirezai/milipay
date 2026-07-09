@@ -164,12 +164,7 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
             'mobile' => $this->getMobile(),
             'nationalCode' => (string) $this->getNationalCode(),
         ];
-
-        $filteredData = array_filter($requestData, function($value) {
-            return $value !== null && $value !== '' && $value != 0;
-        });
-
-        return $filteredData;
+        return $this->finalDataBuilding($requestData);
     }
 
     public function buildVerifyRequestData(): array
@@ -178,11 +173,7 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
             'merchant' => $this->getMerchant(),
             'trackId' => $this->getPayId()
         ];
-        $filteredData = array_filter($requestData, function($value) {
-            return $value !== null && $value !== '' && $value != 0;
-        });
-
-        return $filteredData;
+        return $this->finalDataBuilding($requestData);
     }
 
     public function buildInquiryRequestData(): array
@@ -191,7 +182,11 @@ class ZibalManager extends BasicRequester implements ResourceData, Gateway
             'merchant' => $this->getMerchant(),
             'trackId' => $this->getPayId()
         ];
-        $filteredData = array_filter($requestData, function($value) {
+        return $this->finalDataBuilding($requestData);
+    }
+    protected function finalDataBuilding(array $data)
+    {
+        $filteredData = array_filter($data, function($value) {
             return $value !== null && $value !== '' && $value != 0;
         });
 

@@ -160,12 +160,7 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
             'callback_url' => $this->getCallbackUrl(),
             'description' => $this->getDescription(),
         ];
-
-        $filteredData = array_filter($requestData, function($value) {
-            return $value !== null && $value !== '' && $value != 0;
-        });
-
-        return $filteredData;
+        return $this->finalDataBuilding($requestData);
     }
 
     public function buildVerifyRequestData(): array
@@ -175,11 +170,7 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
             'amount' => $this->getAmount(),
             'authority' => $this->getPayId()
         ];
-        $filteredData = array_filter($requestData, function($value) {
-            return $value !== null && $value !== '' && $value != 0;
-        });
-
-        return $filteredData;
+        return $this->finalDataBuilding($requestData);
     }
 
     public function buildInquiryRequestData(): array
@@ -188,7 +179,11 @@ class ZarinpalManager extends BasicRequester implements ResourceData, Gateway
             'merchant_id' => $this->getMerchant(),
             'authority' => $this->getPayId()
         ];
-        $filteredData = array_filter($requestData, function($value) {
+        return $this->finalDataBuilding($requestData);
+    }
+    protected function finalDataBuilding(array $data)
+    {
+        $filteredData = array_filter($data, function($value) {
             return $value !== null && $value !== '' && $value != 0;
         });
 
