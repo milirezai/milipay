@@ -37,7 +37,7 @@ class ResolveData implements PipelinePayContract
             $this->data->merchant(pay_config('drivers.'.$this->data->getDriver().'.merchant'));
         // resolve callbackUrl
         if (empty($this->data->getCallback()))
-            $this->data->callback($this->getCallback('callbackUrl'));
+            $this->data->callback(pay_config('drivers.'.$this->data->getDriver().'.api.callbackUrl'));
         // resolve timeout
         if ($this->data->getTimeout() < 1)
             $this->data->timeout(pay_config('drivers.'.$this->data->getDriver().'.timeout'));

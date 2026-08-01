@@ -74,7 +74,8 @@ return [
                 "request" => "https://sandbox.zarinpal.com/pg/v4/payment/request.json",
                 "start" => "https://sandbox.zarinpal.com/pg/StartPay/",
                 "verify" => "https://sandbox.zarinpal.com/pg/v4/payment/verify.json",
-                'inquiry' => 'https://sandbox.zarinpal.com/pg/v4/payment/inquiry.json'
+                'inquiry' => 'https://sandbox.zarinpal.com/pg/v4/payment/inquiry.json',
+                "callbackUrl" => 'app/callback'
             ],
             'codeMessage' => [
                 -9 => '	خطای اعتبار سنجی',
