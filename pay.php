@@ -2,32 +2,33 @@
 
 return [
 
-    "default" => "zarinpal",
-
-    "drivers" => [
-        "zibal" => true,
-        "zarinpal" => true
-    ],
 
 
-    "gateways" => [
 
-        // start config zibal
-        "zibal" => [
 
-            "status" => true,
-            "manager" => \MiliPay\Gateways\Zibal\ZibalManager::class,
 
-            "settings" => [
-                "merchant" => "zibal",
-                "callbackUrl" => 'app/callback'
-            ],
+    "defaultDriver" => "zibal",
 
+
+
+
+
+    'drivers' => [
+
+        'zibal' => [
+            'status' => true,
+            'manager' => \Milipay\Drivers\Zibal\Zibal::class,
+            'adapter' => \Milipay\Response\Adapters\Zibal::class,
+            'payloadBuilder' => \Milipay\PayloadBuilders\ZibalPayloadBuilder::class,
+            'merchant' => 'zibal',
+            'timeout' => 8,
+            'retry' => 2,
             'api' => [
-                "apiRequest" => "https://gateway.zibal.ir/v1/request",
-                "apiStart" => "https://gateway.zibal.ir/start/",
-                "apiVerify" => "https://gateway.zibal.ir/v1/verify",
-                'apiInquiry' => 'https://gateway.zibal.ir/v1/inquiry'
+                "request" => "https://gateway.zibal.ir/v1/request",
+                "start" => "https://gateway.zibal.ir/start/",
+                "verify" => "https://gateway.zibal.ir/v1/verify",
+                'inquiry' => 'https://gateway.zibal.ir/v1/inquiry',
+                "callbackUrl" => 'app/callback'
             ],
             'codeMessage' => [
                 -1 => 'در انتظار پرداخت',
@@ -58,33 +59,23 @@ return [
                 203 => 'trackIdنامعتبر می‌باشد.',
             ]
 
+
         ],
-        // end config ibal
 
-        // start config zarinpal
-        "zarinpal" => [
-
-            "status" => true,
-            "manager" => \MiliPay\Gateways\Zarinpal\ZarinpalManager::class,
-
-            "settings" => [
-                "merchant" => "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                "callbackUrl" => 'app/callback',
-                "default_description" => 'Request payment in zarinpal'
-            ],
-
+        'zarinpal' => [
+            'status' => true,
+            'manager' => \Milipay\Drivers\Zarinpal\Zarinpal::class,
+            'adapter' => \Milipay\Response\Adapters\Zarinpal::class,
+            'payloadBuilder' => \Milipay\PayloadBuilders\ZarinpalPayloadBuilder::class,
+            'merchant' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+            'timeout' => 8,
+            'retry' => 2,
             'api' => [
-                "apiRequest" => "https://sandbox.zarinpal.com/pg/v4/payment/request.json",
-                "apiStart" => "https://sandbox.zarinpal.com/pg/StartPay/",
-                "apiVerify" => "https://sandbox.zarinpal.com/pg/v4/payment/verify.json",
-                'apiInquiry' => 'https://sandbox.zarinpal.com/pg/v4/payment/inquiry.json'
+                "request" => "https://sandbox.zarinpal.com/pg/v4/payment/request.json",
+                "start" => "https://sandbox.zarinpal.com/pg/StartPay/",
+                "verify" => "https://sandbox.zarinpal.com/pg/v4/payment/verify.json",
+                'inquiry' => 'https://sandbox.zarinpal.com/pg/v4/payment/inquiry.json'
             ],
-            "responseKey" => [
-                "payId" => "authority", // for response method payId
-                "result" => "code:100", // for response method codeMessage
-                "successful" => "message:Success" // for response method successful
-            ],
-
             'codeMessage' => [
                 -9 => '	خطای اعتبار سنجی',
                 -10 => 'ای پی یا مرچنت كد پذیرنده صحیح نیست.',
@@ -122,15 +113,11 @@ return [
                 -63	 => 'حداکثر زمان (۳۰ دقیقه) برای ریورس کردن این تراکنش منقضی شده است',
                 101	 => 'تراکنش وریفای شده است.',
 
-            ]
+            ],
 
         ],
-        // end config zarinpal
-
 
 
     ]
-
-
 
 ];

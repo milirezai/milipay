@@ -1,19 +1,19 @@
 <?php
+use Milipay\Exceptions\MilipayException;
 
-use MiliPay\Config\ConfigGateway;
-use MiliPay\ErrorHandler\PaymentErrorHandler;
-
-// instanse fo class ConfigGateway
-if (!function_exists('gateConfig')){
-    function gateConfig(): ConfigGateway
+if (!function_exists('pay_config')){
+    function pay_config(string $key)
     {
-        return app()->make(ConfigGateway::class);
+        if (!file_exists(config_path('pay.php')))
+            throw new MilipayException('config not published',404);
+        return config('pay.'.$key);
     }
 }
-// instanse fo class PaymentErrorHandler
-if (!function_exists('errorHandler')){
-    function errorHandler(): PaymentErrorHandler
+
+
+if (!function_exists('response_time')){
+    function response_time(float $start, float $end)
     {
-        return app()->make(PaymentErrorHandler::class);
+        return round(($end - $start) * 1000,2);
     }
 }
