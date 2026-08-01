@@ -12,7 +12,7 @@ milipay/
 │  │  ├─ PipelinePayContract::class
 │  │  ├─ ResponseHandlerContract::class
 │  ├─ Core/
-│  │  ├─ PayEng::class
+│  │  ├─ PayEngine::class
 │  ├─ Drivers/
 │  │  ├─ Zarinpal/
 │  │  │ ├─ Zarinpal::class
@@ -45,7 +45,7 @@ milipay/
 │  │  ├─ Adapters/
 │  │  │ ├─ Zarinpal::class
 │  │  │ ├─ Zibal::class
-│  │  ├─ PaymentResult::class
+│  │  ├─ PayResult::class
 │  ├─ Support/
 │  │  ├─ Helper/
 │  │  │ ├─ helper.php

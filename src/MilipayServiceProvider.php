@@ -24,7 +24,7 @@ class MilipayServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../pay.php' => config_path('pay.php')
-        ],'milipay');
+        ],'milipay-config');
 
         $this->app->when(Zarinpal::class)
             ->needs(PayloadBuilderContract::class)
