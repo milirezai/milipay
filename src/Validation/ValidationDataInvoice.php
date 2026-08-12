@@ -5,6 +5,7 @@ namespace Milipay\Validation;
 use Illuminate\Validation\ValidationException;
 use Milipay\Contracts\InvoiceDataBuilderContract;
 use Milipay\Exceptions\MilipayException;
+use Illuminate\Support\Facades\Validator;
 
 class ValidationDataInvoice
 {
