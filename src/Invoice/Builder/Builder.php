@@ -172,8 +172,6 @@ class Builder implements InvoiceDataBuilderContract
 
     public function amount(int $amount): InvoiceDataBuilderContract
     {
-        if ($amount < 10000)
-            throw new MilipayException('The amount must be higher than 10000 Rials.');
         $this->amount = $amount;
         return $this;
     }
@@ -185,8 +183,6 @@ class Builder implements InvoiceDataBuilderContract
 
     public function description(string $description): InvoiceDataBuilderContract
     {
-        if (strlen($description) < 10)
-            throw new MilipayException('The description must be longer than 10 characters.');
         $this->description = $description;
         return $this;
     }
@@ -220,8 +216,6 @@ class Builder implements InvoiceDataBuilderContract
 
     public function mobile(string $mobile): InvoiceDataBuilderContract
     {
-        if (strlen($mobile) != 11)
-            throw new MilipayException('The mobile must be equal 11 numbers.');
         $this->mobile = $mobile;
         return $this;
     }

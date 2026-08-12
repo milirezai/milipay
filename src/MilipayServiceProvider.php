@@ -63,6 +63,7 @@ class MilipayServiceProvider extends ServiceProvider
             \Milipay\Drivers\Zibal\Zibal::class,
             \Milipay\Drivers\Zarinpal\Zarinpal::class
         ])->pipes([
+            \Milipay\Validation\Validation::class,
             \Milipay\Invoice\Resolve\ResolveData::class,
             \Milipay\Invoice\Dto\Dto::class,
             \Milipay\Core\PayEngine::class
