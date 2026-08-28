@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Milipay\\": "src/"
+            "Mili\\Milipay\\": "src/"
         },
         "files": [
             "src/Support/Helper/helper.php"
@@ -14,7 +14,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Milipay\\MilipayServiceProvider"
+                "Mili\\Milipay\\MilipayServiceProvider"
             ]
         }
     },

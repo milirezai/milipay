@@ -1,14 +1,14 @@
 <?php
 
-namespace Milipay\Response;
+namespace Mili\Milipay\Response;
 
-use Milipay\Contracts\ResponseHandlerContract;
+use Mili\Milipay\Contracts\ResponseHandler;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 
-class PayResult implements ResponseHandlerContract
+class PayResult implements ResponseHandler
 {
-    private ResponseHandlerContract $response;
+    private ResponseHandler $response;
 
     public function init(mixed $response): static
     {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Milipay\PayloadBuilders;
+namespace Mili\Milipay\PayloadBuilders;
 
-use Milipay\Contracts\DataExtractContract;
-use Milipay\Contracts\PayloadBuilderContract;
+use Mili\Milipay\Contracts\DataExtract;
+use Mili\Milipay\Contracts\PayloadBuilder;
 
-class ZibalPayloadBuilder implements PayloadBuilderContract
+class ZibalPayloadBuilder implements PayloadBuilder
 {
 
-    public function request(DataExtractContract $data)
+    public function request(DataExtract $data)
     {
         $dataTransmitted = [
             'merchant' => $data->merchant(),
@@ -23,7 +23,7 @@ class ZibalPayloadBuilder implements PayloadBuilderContract
         return $this->resolveFilter($dataTransmitted);
     }
 
-    public function verify(DataExtractContract $data)
+    public function verify(DataExtract $data)
     {
         $dataTransmitted = [
             'merchant' => $data->merchant(),
@@ -32,7 +32,7 @@ class ZibalPayloadBuilder implements PayloadBuilderContract
         return $this->resolveFilter($dataTransmitted);
     }
 
-    public function inquiry(DataExtractContract $data)
+    public function inquiry(DataExtract $data)
     {
         $dataTransmitted = [
             'merchant' => $data->merchant(),

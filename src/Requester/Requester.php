@@ -1,6 +1,6 @@
 <?php
 
-namespace Milipay\Requester;
+namespace Mili\Milipay\Requester;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;

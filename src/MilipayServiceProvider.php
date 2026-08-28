@@ -1,17 +1,17 @@
 <?php
 
-namespace Milipay;
+namespace Mili\Milipay;
 
-use Milipay\Contracts\ResponseHandlerContract;
-use Milipay\Contracts\PayloadBuilderContract;
-use Milipay\Drivers\Zarinpal\Zarinpal;
-use Milipay\Drivers\Zibal\Zibal;
-use Milipay\Facades\MilipayRegistry;
-use Milipay\PayloadBuilders\ZarinpalPayloadBuilder;
-use Milipay\PayloadBuilders\ZibalPayloadBuilder;
-use Milipay\Registry\PayRegistry;
-use Milipay\Response\Adapters\Zarinpal as ZarinpallAdapter;
-use Milipay\Response\Adapters\Zibal as ZibalAdapter;
+use Mili\Milipay\Contracts\ResponseHandler;
+use Mili\Milipay\Contracts\PayloadBuilder;
+use Mili\Milipay\Drivers\Zarinpal\Zarinpal;
+use Mili\Milipay\Drivers\Zibal\Zibal;
+use Mili\Milipay\Facades\MilipayRegistry;
+use Mili\Milipay\PayloadBuilders\ZarinpalPayloadBuilder;
+use Mili\Milipay\PayloadBuilders\ZibalPayloadBuilder;
+use Mili\Milipay\Registry\PayRegistry;
+use Mili\Milipay\Response\Adapters\Zarinpal as ZarinpallAdapter;
+use Mili\Milipay\Response\Adapters\Zibal as ZibalAdapter;
 use Illuminate\Support\ServiceProvider;
 
 class MilipayServiceProvider extends ServiceProvider
@@ -27,19 +27,19 @@ class MilipayServiceProvider extends ServiceProvider
         ],'milipay-config');
 
         $this->app->when(Zarinpal::class)
-            ->needs(PayloadBuilderContract::class)
+            ->needs(PayloadBuilder::class)
             ->give(ZarinpalPayloadBuilder::class);
 
         $this->app->when(Zarinpal::class)
-            ->needs(ResponseHandlerContract::class)
+            ->needs(ResponseHandler::class)
             ->give(ZarinpallAdapter::class);
 
         $this->app->when(Zibal::class)
-            ->needs(PayloadBuilderContract::class)
+            ->needs(PayloadBuilder::class)
             ->give(ZibalPayloadBuilder::class);
 
         $this->app->when(Zibal::class)
-            ->needs(ResponseHandlerContract::class)
+            ->needs(ResponseHandler::class)
             ->give(ZibalAdapter::class);
 
 
@@ -60,23 +60,22 @@ class MilipayServiceProvider extends ServiceProvider
     {
 
         MilipayRegistry::drivers([
-            \Milipay\Drivers\Zibal\Zibal::class,
-            \Milipay\Drivers\Zarinpal\Zarinpal::class
+            \Mili\Milipay\Drivers\Zibal\Zibal::class,
+            \Mili\Milipay\Drivers\Zarinpal\Zarinpal::class
         ])->pipes([
-            \Milipay\Validation\Validation::class,
-            \Milipay\Invoice\Resolve\ResolveData::class,
-            \Milipay\Invoice\Dto\Dto::class,
-            \Milipay\Core\PayEngine::class
+            \Mili\Milipay\Validation\Validation::class,
+            \Mili\Milipay\Invoice\Resolve\ResolveData::class,
+            \Mili\Milipay\Invoice\Dto\Dto::class,
+            \Mili\Milipay\Core\PayEngine::class
         ])->facades([
-            \Milipay\Facades\MilipayRegistry::class,
-            \Milipay\Facades\Milipay::class,
+            \Mili\Milipay\Facades\MilipayRegistry::class,
+            \Mili\Milipay\Facades\Milipay::class,
         ])->adapters([
-            \Milipay\Response\Adapters\Zarinpal::class,
-            \Milipay\Response\Adapters\Zibal::class,
+            \Mili\Milipay\Response\Adapters\Zarinpal::class,
+            \Mili\Milipay\Response\Adapters\Zibal::class,
         ])->payloadBuilders([
-            \Milipay\PayloadBuilders\ZibalPayloadBuilder::class,
-            \Milipay\PayloadBuilders\ZarinpalPayloadBuilder::class,
+            \Mili\Milipay\PayloadBuilders\ZibalPayloadBuilder::class,
+            \Mili\Milipay\PayloadBuilders\ZarinpalPayloadBuilder::class,
         ]);
-
     }
 }

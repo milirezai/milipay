@@ -1,6 +1,6 @@
 <?php
 
-namespace Milipay\Facades;
+namespace Mili\Milipay\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

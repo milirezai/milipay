@@ -1,5 +1,6 @@
 <?php
-use Milipay\Exceptions\MilipayException;
+
+use Mili\Milipay\Exceptions\MilipayException;
 
 if (!function_exists('pay_config')){
     function pay_config(string $key)

@@ -1,8 +1,8 @@
 <?php
 
-namespace Milipay\Contracts;
+namespace Mili\Milipay\Contracts;
 
-interface PayRegistryContract
+interface PayRegistry
 {
     public function drivers(array $drivers): self;
     public function getDrivers(): array;

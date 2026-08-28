@@ -1,8 +1,8 @@
 <?php
 
-namespace Milipay\Contracts;
+namespace Mili\Milipay\Contracts;
 
-interface ResponseHandlerContract
+interface ResponseHandler
 {
     public function init(mixed $response):self;
 

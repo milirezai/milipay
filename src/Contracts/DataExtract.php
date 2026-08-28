@@ -1,8 +1,8 @@
 <?php
 
-namespace Milipay\Contracts;
+namespace Mili\Milipay\Contracts;
 
-interface DataExtractContract
+interface DataExtract
 {
     public function operation();
     public function payId();

@@ -1,20 +1,20 @@
 <?php
 
-namespace Milipay\Core;
+namespace Mili\Milipay\Core;
 
-use Milipay\Contracts\DriverContract;
-use Milipay\Contracts\PipelinePayContract;
-use Milipay\Drivers\Driver;
-use Milipay\Invoice\Dto\Dto;
-use Milipay\Response\PayResult;
+use Mili\Milipay\Contracts\Driver;
+use Mili\Milipay\Contracts\PipelinePay;
+use Mili\Milipay\Drivers\Driver as DriverInstance;
+use Mili\Milipay\Invoice\Dto\Dto;
+use Mili\Milipay\Response\PayResult;
 use Closure;
 
-class PayEngine implements PipelinePayContract
+class PayEngine implements PipelinePay
 {
     private  Driver $driver;
     private Dto $data;
 
-    private DriverContract $gatewayInstance;
+    private DriverInstance $gatewayInstance;
 
     public function __construct(Driver $driver,protected readonly PayResult $response)
     {

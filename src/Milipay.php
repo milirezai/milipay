@@ -1,8 +1,8 @@
 <?php
 
-namespace Milipay;
+namespace Mili\Milipay;
 
-use Milipay\Invoice\Invoice;
+use Mili\Milipay\Invoice\Invoice;
 
 class Milipay
 {

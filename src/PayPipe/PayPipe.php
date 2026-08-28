@@ -1,8 +1,8 @@
 <?php
 
-namespace Milipay\PayPipe;
+namespace Mili\Milipay\PayPipe;
 
-use Milipay\Facades\MilipayRegistry;
+use Mili\Milipay\Facades\MilipayRegistry;
 use Illuminate\Pipeline\Pipeline;
 
 class PayPipe

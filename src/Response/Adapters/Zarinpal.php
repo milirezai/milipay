@@ -1,10 +1,10 @@
 <?php
 
-namespace Milipay\Response\Adapters;
+namespace Mili\Milipay\Response\Adapters;
 
-use Milipay\Contracts\ResponseHandlerContract;
+use Mili\Milipay\Contracts\ResponseHandler;
 
-class Zarinpal implements ResponseHandlerContract
+class Zarinpal implements ResponseHandler
 {
     protected mixed $response;
     public function init(mixed $response): self

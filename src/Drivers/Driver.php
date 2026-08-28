@@ -1,9 +1,9 @@
 <?php
 
-namespace Milipay\Drivers;
+namespace Mili\Milipay\Drivers;
 
 
-use Milipay\Facades\MilipayRegistry;
+use Mili\Milipay\Facades\MilipayRegistry;
 
 class Driver
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Milipay\Response\Adapters;
+namespace Mili\Milipay\Response\Adapters;
 
-use Milipay\Contracts\ResponseHandlerContract;
+use Mili\Milipay\Contracts\ResponseHandler;
 
-class Zibal implements ResponseHandlerContract
+class Zibal implements ResponseHandler
 {
     protected array $response;
 

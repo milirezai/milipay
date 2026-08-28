@@ -1,10 +1,10 @@
 <?php
 
-namespace Milipay\Registry;
+namespace Mili\Milipay\Registry;
 
-use Milipay\Contracts\PayRegistryContract;
+use Mili\Milipay\Contracts\PayRegistry as RegistryContract;
 
-class PayRegistry implements PayRegistryContract
+class PayRegistry implements RegistryContract
 {
     protected array $drivers;
     protected array $adapters;
