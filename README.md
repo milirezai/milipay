@@ -1,65 +1,24 @@
 
-```php
+<h3 align="center">
+Milipay
+</h3>
 
-milipay/
-├─ src/
-│  ├─ Contracts/
-│  │  ├─ DataExtract::class
-│  │  ├─ Driver::class
-│  │  ├─ InvoiceDataBuilder::class
-│  │  ├─ PayloadBuilder::class
-│  │  ├─ PayRegistry::class
-│  │  ├─ PipelinePay::class
-│  │  ├─ ResponseHandler::class
-│  ├─ Core/
-│  │  ├─ PayEngine::class
-│  ├─ Drivers/
-│  │  ├─ Zarinpal/
-│  │  │ ├─ Zarinpal::class
-│  │  ├─ Zibal
-│  │  │ ├─ Zibal::class
-│  │  ├─ Driver::class
-│  ├─ Exceptions/
-│  │  ├─ MilipayException::class
-│  ├─ Facades/
-│  │  ├─ Milipay::class
-│  │  ├─ MilipayRegistry::class
-│  ├─ Invoice/
-│  │  ├─ Builder/
-│  │  │ ├─ Builder::class
-│  │  ├─ Bto
-│  │  │ ├─ Dto::class
-│  │  ├─ Resolve
-│  │  │ ├─ ResolveData::class
-│  │  ├─ Invoice::class
-│  ├─ PayloadBuilders/
-│  │  ├─ ZarinpalPayloadBuilder::class
-│  │  ├─ ZibalPayloadBuilder::class
-│  ├─ PayPipe/
-│  │  ├─ PayPipe::class
-│  ├─ Registry/
-│  │  ├─ PayRegistry::class
-│  ├─ Requester/
-│  │  ├─ Requester::class
-│  ├─ Response/
-│  │  ├─ Adapters/
-│  │  │ ├─ Zarinpal::class
-│  │  │ ├─ Zibal::class
-│  │  ├─ PayResult::class
-│  ├─ Support/
-│  │  ├─ Helper/
-│  │  │ ├─ helper.php
-│  ├─ Validation/
-│  │  ├─ Validation::class
-│  │  ├─ ValidationDataInvoice::class
-│  ├─ Milipay::class
-│  ├─ MilipayServiceProvider::class
-├─ composer.json
-└─ README.md
-└─ RODMAP.md
+<p align="center">
+    <strong>Payment Package for Laravel</strong>
+</p>
 
-```
+<p  align="center">
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/milirezai/milipay.svg?style=flat-square)](https://packagist.org/packages/milirezai/milipay)
+[![Total Downloads](https://img.shields.io/packagist/dt/milirezai/milipay.svg?style=flat-square)](https://packagist.org/packages/milirezai/milipay)
+[![PHP Version](https://img.shields.io/packagist/php-v/milirezai/milipay.svg?style=flat-square)](https://packagist.org/packages/milirezai/milipay)
+[![Laravel](https://img.shields.io/badge/Laravel-12.x|13.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
+![GitHub Stars](https://img.shields.io/github/stars/milirezai/milipay?style=flat&logo=github)
+![Contributors](https://img.shields.io/github/contributors/milirezai/milipay?style=flat)
+![GitHub Forks](https://img.shields.io/github/forks/milirezai/milipay?style=flat&logo=github)
+![GitHub Issues](https://img.shields.io/github/issues/milirezai/milipay?style=flat&logo=github)
+
+</p>
 
 
 وقتی دنبال پکیج واسه اتصال به درگاه های پرداخت گشتم پکیج درست درمونی نبود که همزمان سینتکس لاراولی داشته باشه،کنترل کامل روی پاسخ ها درگاه داشته باشم،کنترل خوبی روی خطا ها داشته باشه و از همه مهم تر یک ساختار  و معماری درست داشته باشه پس منم تصمیم
@@ -142,9 +101,9 @@ php artisan vendor:publish --tag=milipay-config
 
         'example-driver' => [
             'status' => true, // این فیلد وضعیت فعال بودن یک درگاه رو مشخص می کنه
-            'manager' => \Milipay\Drivers\Zibal\Zibal::class, // namespace کلاس درگاه
-            'adapter' => \Milipay\Response\Adapters\Zibal::class, // این بخش مربوط به ریسپانس هندلر درگاه است
-            'payloadBuilder' => \Milipay\PayloadBuilders\ZibalPayloadBuilder::class, // این بخش مربوط به سازنده دیتای برای ارسال به api درگاه است
+            'manager' => \Mili\Milipay\Drivers\Zibal\Zibal::class, // namespace کلاس درگاه
+            'adapter' => \Mili\Milipay\Response\Adapters\Zibal::class, // این بخش مربوط به ریسپانس هندلر درگاه است
+            'payloadBuilder' => \Mili\Milipay\PayloadBuilders\ZibalPayloadBuilder::class, // این بخش مربوط به سازنده دیتای برای ارسال به api درگاه است
             'merchant' => 'zibal', // این مقدار رو باید تویه درگاه پرداختی که قصد استفاده از اون رو دارید ثبت نام و دیافت کنید این مقداری که الان پر شده فقط برای تست از کارکرد درگاه است
             'timeout' => 8, // این فیلد برای مدت زمان طول  درخواست  تا زمان پاسخ  درگاه است
             'retry' => 2, // این بخش تعداد تکرار یه درخواست در صورت تموم شدن زمان درخواست رو نشون میده 
@@ -176,8 +135,8 @@ php artisan vendor:publish --tag=milipay-config
 
 برای استفاده می تونید از کلاس اصلی و یا فساد آن استفاده کنید
 ```php
-use Milipay\Milipay;
-use Milipay\Facades\Milipay;
+use Mili\Milipay\Milipay;
+use Mili\Milipay\Facades\Milipay;
 ```
 <br>
 
