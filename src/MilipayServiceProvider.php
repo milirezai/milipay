@@ -2,17 +2,17 @@
 
 namespace Mili\Milipay;
 
-use Mili\Milipay\Contracts\ResponseHandler;
-use Mili\Milipay\Contracts\PayloadBuilder;
-use Mili\Milipay\Drivers\Zarinpal\Zarinpal;
-use Mili\Milipay\Drivers\Zibal\Zibal;
-use Mili\Milipay\Facades\MilipayRegistry;
-use Mili\Milipay\PayloadBuilders\ZarinpalPayloadBuilder;
-use Mili\Milipay\PayloadBuilders\ZibalPayloadBuilder;
-use Mili\Milipay\Registry\PayRegistry;
-use Mili\Milipay\Response\Adapters\Zarinpal as ZarinpallAdapter;
-use Mili\Milipay\Response\Adapters\Zibal as ZibalAdapter;
 use Illuminate\Support\ServiceProvider;
+use Mili\Milipay\Contracts\PayloadBuilder as PayloadBuilderContract;
+use Mili\Milipay\Contracts\ResponseHandler as ResponseHandlerContract;
+use Mili\Milipay\Drivers\Zarinpal\Response as ZarinpallAdapter;
+use Mili\Milipay\Drivers\Zarinpal\Zarinpal;
+use Mili\Milipay\Drivers\Zarinpal\PayloadBuilder as ZarinpalPayloadBuilder;
+use Mili\Milipay\Drivers\Zibal\Response as ZibalAdapter;
+use Mili\Milipay\Drivers\Zibal\Zibal;
+use Mili\Milipay\Drivers\Zibal\PayloadBuilder as ZibalPayloadBuilder;
+use Mili\Milipay\Facades\MilipayRegistry;
+use Mili\Milipay\Registry\Registry;
 
 class MilipayServiceProvider extends ServiceProvider
 {
@@ -27,19 +27,19 @@ class MilipayServiceProvider extends ServiceProvider
         ],'milipay-config');
 
         $this->app->when(Zarinpal::class)
-            ->needs(PayloadBuilder::class)
+            ->needs(PayloadBuilderContract::class)
             ->give(ZarinpalPayloadBuilder::class);
 
         $this->app->when(Zarinpal::class)
-            ->needs(ResponseHandler::class)
+            ->needs(ResponseHandlerContract::class)
             ->give(ZarinpallAdapter::class);
 
         $this->app->when(Zibal::class)
-            ->needs(PayloadBuilder::class)
+            ->needs(PayloadBuilderContract::class)
             ->give(ZibalPayloadBuilder::class);
 
         $this->app->when(Zibal::class)
-            ->needs(ResponseHandler::class)
+            ->needs(ResponseHandlerContract::class)
             ->give(ZibalAdapter::class);
 
 
@@ -48,7 +48,7 @@ class MilipayServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('MilipayRegistry',function (){
-            return $this->app->make(PayRegistry::class);
+            return $this->app->make(Registry::class);
         });
 
     }
@@ -64,18 +64,18 @@ class MilipayServiceProvider extends ServiceProvider
             \Mili\Milipay\Drivers\Zarinpal\Zarinpal::class
         ])->pipes([
             \Mili\Milipay\Validation\Validation::class,
-            \Mili\Milipay\Invoice\Resolve\ResolveData::class,
-            \Mili\Milipay\Invoice\Dto\Dto::class,
-            \Mili\Milipay\Core\PayEngine::class
+            Invoice\ResolveData::class,
+            Invoice\Dto::class,
+            \Mili\Milipay\Core\Engine::class
         ])->facades([
             \Mili\Milipay\Facades\MilipayRegistry::class,
             \Mili\Milipay\Facades\Milipay::class,
         ])->adapters([
-            \Mili\Milipay\Response\Adapters\Zarinpal::class,
-            \Mili\Milipay\Response\Adapters\Zibal::class,
+            Drivers\Zarinpal\Response::class,
+            Drivers\Zibal\Response::class,
         ])->payloadBuilders([
-            \Mili\Milipay\PayloadBuilders\ZibalPayloadBuilder::class,
-            \Mili\Milipay\PayloadBuilders\ZarinpalPayloadBuilder::class,
+            Drivers\Zibal\PayloadBuilder::class,
+            Drivers\Zarinpal\PayloadBuilder::class,
         ]);
     }
 }

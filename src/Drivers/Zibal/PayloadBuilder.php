@@ -1,24 +1,24 @@
 <?php
 
-namespace Mili\Milipay\PayloadBuilders;
+namespace Mili\Milipay\Drivers\Zibal;
 
 use Mili\Milipay\Contracts\DataExtract;
-use Mili\Milipay\Contracts\PayloadBuilder;
+use Mili\Milipay\Contracts\PayloadBuilder as PayloadBuilderContract;
 
-class ZarinpalPayloadBuilder implements PayloadBuilder
+class PayloadBuilder implements PayloadBuilderContract
 {
 
     public function request(DataExtract $data)
     {
         $dataTransmitted = [
-            'merchant_id' => $data->merchant(),
+            'merchant' => $data->merchant(),
             'amount' => $data->amount(),
-            'callback_url' => $data->callback(),
+            'callbackUrl' => $data->callback(),
             'description' => $data->description(),
             'email' => $data->email(),
             'mobile' => $data->mobile(),
             'nationalCode' => $data->nationalCode(),
-            'order_id' => $data->orderId()
+            'orderId' => $data->orderId()
         ];
         return $this->resolveFilter($dataTransmitted);
     }
@@ -26,9 +26,8 @@ class ZarinpalPayloadBuilder implements PayloadBuilder
     public function verify(DataExtract $data)
     {
         $dataTransmitted = [
-            'merchant_id' => $data->merchant(),
-            'amount' => $data->amount(),
-            'authority' => $data->payId(),
+            'merchant' => $data->merchant(),
+            'trackId' => $data->payId(),
         ];
         return $this->resolveFilter($dataTransmitted);
     }
@@ -36,8 +35,8 @@ class ZarinpalPayloadBuilder implements PayloadBuilder
     public function inquiry(DataExtract $data)
     {
         $dataTransmitted = [
-            'merchant_id' => $data->merchant(),
-            'authority' => $data->payId(),
+            'merchant' => $data->merchant(),
+            'trackId' => $data->payId(),
         ];
         return $this->resolveFilter($dataTransmitted);
     }
@@ -47,5 +46,4 @@ class ZarinpalPayloadBuilder implements PayloadBuilder
             return !empty($item) & $item > 0;
         })->toArray();
     }
-
 }

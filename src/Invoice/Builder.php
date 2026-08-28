@@ -1,9 +1,9 @@
 <?php
 
-namespace Mili\Milipay\Invoice\Builder;
+namespace Mili\Milipay\Invoice;
 
 use Mili\Milipay\Contracts\InvoiceDataBuilder;
-use Mili\Milipay\PayPipe\PayPipe;
+use Mili\Milipay\Pipeline\Pipe;
 
 class Builder implements InvoiceDataBuilder
 {
@@ -26,7 +26,7 @@ class Builder implements InvoiceDataBuilder
     protected int $timeout = 0;
     protected int $retry = 0;
 
-    public function __construct(protected readonly PayPipe $payPipe)
+    public function __construct(protected readonly Pipe $payPipe)
     {}
 
     public function request()

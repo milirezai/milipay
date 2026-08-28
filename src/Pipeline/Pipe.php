@@ -1,16 +1,16 @@
 <?php
 
-namespace Mili\Milipay\PayPipe;
+namespace Mili\Milipay\Pipeline;
 
 use Mili\Milipay\Facades\MilipayRegistry;
 use Illuminate\Pipeline\Pipeline;
 
-class PayPipe
+class Pipe
 {
 
     public function data(mixed $dataObject)
     {
-        return app(Pipeline::class)
+        return app(Pipe::class)
             ->send($dataObject)
             ->through(MilipayRegistry::getPipes())
             ->via('handle')->thenReturn();

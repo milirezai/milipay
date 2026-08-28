@@ -1,12 +1,13 @@
 <?php
 
-namespace Mili\Milipay\Response\Adapters;
+namespace Mili\Milipay\Drivers\Zibal;
 
 use Mili\Milipay\Contracts\ResponseHandler;
 
-class Zarinpal implements ResponseHandler
+class Response implements ResponseHandler
 {
-    protected mixed $response;
+    protected array $response;
+
     public function init(mixed $response): self
     {
         $this->response = $response;
@@ -30,7 +31,7 @@ class Zarinpal implements ResponseHandler
 
     public function isSuccessful(): bool
     {
-        return $this->getMessage() == 'Success' ? true : false;
+        return $this->toArray()['message'] == 'success' ? true : false;
     }
 
     public function isFailed(): bool
@@ -40,27 +41,18 @@ class Zarinpal implements ResponseHandler
 
     public function getMessage(): string
     {
-        $data = (array)$this->toArray()['data'];
-        $dataMessageError = (array)$this->toArray()['errors'];
-        if (empty($data)){
-            $message = $dataMessageError;
-        }else{
-            $message = $data;
-        }
-        return $message['message'];
+        return $this->toArray()['message'];
     }
 
     public function getPayId(): int|string
     {
-        $data = (array)$this->toArray()['data'];
-        return $data['authority'];
+        return $this->toArray()['trackId'];
     }
 
     public function getCodeMessage(): string|null
     {
-        $codes = pay_config('drivers.zarinpal.codeMessage');
-        $data = (array)$this->toArray()['data'];
-        $code = $data['code'];
+        $codes = pay_config('drivers.zibal.codeMessage');
+        $code = $this->toArray()['result'];
         return $codes[$code];
     }
 }

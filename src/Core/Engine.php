@@ -2,21 +2,21 @@
 
 namespace Mili\Milipay\Core;
 
+use Closure;
 use Mili\Milipay\Contracts\Driver;
 use Mili\Milipay\Contracts\PipelinePay;
 use Mili\Milipay\Drivers\Driver as DriverInstance;
-use Mili\Milipay\Invoice\Dto\Dto;
-use Mili\Milipay\Response\PayResult;
-use Closure;
+use Mili\Milipay\Invoice\Dto;
+use Mili\Milipay\Result\Result;
 
-class PayEngine implements PipelinePay
+class Engine implements PipelinePay
 {
     private  Driver $driver;
     private Dto $data;
 
     private DriverInstance $gatewayInstance;
 
-    public function __construct(Driver $driver,protected readonly PayResult $response)
+    public function __construct(Driver $driver,protected readonly Result $response)
     {
         $this->driver = $driver;
     }

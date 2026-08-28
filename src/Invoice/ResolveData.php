@@ -1,9 +1,9 @@
 <?php
 
-namespace Mili\Milipay\Invoice\Resolve;
+namespace Mili\Milipay\Invoice;
 
-use Mili\Milipay\Contracts\PipelinePay;
 use Closure;
+use Mili\Milipay\Contracts\PipelinePay;
 
 class ResolveData implements PipelinePay
 {

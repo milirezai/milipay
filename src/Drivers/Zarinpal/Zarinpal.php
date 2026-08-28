@@ -8,7 +8,7 @@ use Mili\Milipay\Contracts\ResponseHandler;
 use Mili\Milipay\Contracts\PayloadBuilder;
 use Mili\Milipay\Exceptions\MilipayException;
 use Mili\Milipay\Requester\Requester;
-use Mili\Milipay\Response\PayResult;
+use Mili\Milipay\Result\Result;
 
 class Zarinpal implements Driver
 {
@@ -19,8 +19,8 @@ class Zarinpal implements Driver
     public function __construct(
         protected readonly PayloadBuilder  $payloadBuilder,
         protected readonly ResponseHandler $responseHandler,
-        protected readonly PayResult               $centralResponseManager,
-        protected readonly Requester               $requester
+        protected readonly Result $centralResponseManager,
+        protected readonly Requester $requester
     ){}
 
     public function request(DataExtract $data): self

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mili\Milipay\Invoice\Dto;
+namespace Mili\Milipay\Invoice;
 
+use Closure;
 use Mili\Milipay\Contracts\DataExtract;
 use Mili\Milipay\Contracts\PipelinePay;
-use Closure;
 
 class Dto implements DataExtract, PipelinePay
 {

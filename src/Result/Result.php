@@ -1,12 +1,12 @@
 <?php
 
-namespace Mili\Milipay\Response;
+namespace Mili\Milipay\Result;
 
 use Mili\Milipay\Contracts\ResponseHandler;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 
-class PayResult implements ResponseHandler
+class Result implements ResponseHandler
 {
     private ResponseHandler $response;
 

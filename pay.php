@@ -9,8 +9,8 @@ return [
         'zibal' => [
             'status' => true,
             'manager' => \Mili\Milipay\Drivers\Zibal\Zibal::class,
-            'adapter' => \Mili\Milipay\Response\Adapters\Zibal::class,
-            'payloadBuilder' => \Mili\Milipay\PayloadBuilders\ZibalPayloadBuilder::class,
+            'adapter' => \Mili\Milipay\Drivers\Zibal\Response::class,
+            'payloadBuilder' => \Mili\Milipay\Drivers\Zibal\PayloadBuilder::class,
             'merchant' => 'zibal',
             'timeout' => 8,
             'retry' => 2,
@@ -56,8 +56,8 @@ return [
         'zarinpal' => [
             'status' => true,
             'manager' => \Mili\Milipay\Drivers\Zarinpal\Zarinpal::class,
-            'adapter' => \Mili\Milipay\Response\Adapters\Zarinpal::class,
-            'payloadBuilder' => \Mili\Milipay\PayloadBuilders\ZarinpalPayloadBuilder::class,
+            'adapter' => \Mili\Milipay\Drivers\Zarinpal\Response::class,
+            'payloadBuilder' => \Mili\Milipay\Drivers\Zarinpal\PayloadBuilder::class,
             'merchant' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
             'timeout' => 8,
             'retry' => 2,

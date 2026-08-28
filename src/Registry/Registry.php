@@ -4,7 +4,7 @@ namespace Mili\Milipay\Registry;
 
 use Mili\Milipay\Contracts\PayRegistry as RegistryContract;
 
-class PayRegistry implements RegistryContract
+class Registry implements RegistryContract
 {
     protected array $drivers;
     protected array $adapters;

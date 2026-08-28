@@ -8,7 +8,7 @@
             "Mili\\Milipay\\": "src/"
         },
         "files": [
-            "src/Support/Helper/helper.php"
+            "src/Helper/helper.php"
         ]
     },
     "extra": {

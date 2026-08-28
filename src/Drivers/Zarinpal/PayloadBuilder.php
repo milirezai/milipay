@@ -1,24 +1,24 @@
 <?php
 
-namespace Mili\Milipay\PayloadBuilders;
+namespace Mili\Milipay\Drivers\Zarinpal;
 
 use Mili\Milipay\Contracts\DataExtract;
-use Mili\Milipay\Contracts\PayloadBuilder;
+use Mili\Milipay\Contracts\PayloadBuilder as PayloadBuilderContract;
 
-class ZibalPayloadBuilder implements PayloadBuilder
+class PayloadBuilder implements PayloadBuilderContract
 {
 
     public function request(DataExtract $data)
     {
         $dataTransmitted = [
-            'merchant' => $data->merchant(),
+            'merchant_id' => $data->merchant(),
             'amount' => $data->amount(),
-            'callbackUrl' => $data->callback(),
+            'callback_url' => $data->callback(),
             'description' => $data->description(),
             'email' => $data->email(),
             'mobile' => $data->mobile(),
             'nationalCode' => $data->nationalCode(),
-            'orderId' => $data->orderId()
+            'order_id' => $data->orderId()
         ];
         return $this->resolveFilter($dataTransmitted);
     }
@@ -26,8 +26,9 @@ class ZibalPayloadBuilder implements PayloadBuilder
     public function verify(DataExtract $data)
     {
         $dataTransmitted = [
-            'merchant' => $data->merchant(),
-            'trackId' => $data->payId(),
+            'merchant_id' => $data->merchant(),
+            'amount' => $data->amount(),
+            'authority' => $data->payId(),
         ];
         return $this->resolveFilter($dataTransmitted);
     }
@@ -35,8 +36,8 @@ class ZibalPayloadBuilder implements PayloadBuilder
     public function inquiry(DataExtract $data)
     {
         $dataTransmitted = [
-            'merchant' => $data->merchant(),
-            'trackId' => $data->payId(),
+            'merchant_id' => $data->merchant(),
+            'authority' => $data->payId(),
         ];
         return $this->resolveFilter($dataTransmitted);
     }
@@ -46,4 +47,5 @@ class ZibalPayloadBuilder implements PayloadBuilder
             return !empty($item) & $item > 0;
         })->toArray();
     }
+
 }
