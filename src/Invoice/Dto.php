@@ -4,9 +4,9 @@ namespace Mili\Milipay\Invoice;
 
 use Closure;
 use Mili\Milipay\Contracts\DataExtract;
-use Mili\Milipay\Contracts\PipelinePay;
+use Mili\Milipay\Contracts\PayPipeline;
 
-class Dto implements DataExtract, PipelinePay
+class Dto implements DataExtract, PayPipeline
 {
     protected mixed $data;
 

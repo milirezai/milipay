@@ -3,23 +3,19 @@
 namespace Mili\Milipay\Core;
 
 use Closure;
-use Mili\Milipay\Contracts\Driver;
-use Mili\Milipay\Contracts\PipelinePay;
-use Mili\Milipay\Drivers\Driver as DriverInstance;
+use Mili\Milipay\Contracts\Driver as DriverContract;
+use Mili\Milipay\Contracts\PayPipeline;
+use Mili\Milipay\Drivers\Driver as DriverFactory;
 use Mili\Milipay\Invoice\Dto;
-use Mili\Milipay\Result\Result;
 
-class Engine implements PipelinePay
+class Engine implements PayPipeline
 {
-    private  Driver $driver;
     private Dto $data;
+    private DriverContract $driverInstance;
 
-    private DriverInstance $gatewayInstance;
-
-    public function __construct(Driver $driver,protected readonly Result $response)
-    {
-        $this->driver = $driver;
-    }
+    public function __construct(
+        protected readonly DriverFactory $driverFactory
+    ){}
 
     public function handle($data, Closure $next)
     {
@@ -27,29 +23,19 @@ class Engine implements PipelinePay
         return $this->process();
     }
 
-    private function process(): mixed
+    private function process(): DriverContract
     {
-        // get driver name
-        $driverName = $this->data->driver();
+        $this->driverInstance = $this->driverFactory->via(name: $this->data->driver());
 
-        // select driver instance
-        $this->gatewayInstance = $this->driver->via(name: $driverName);
-
-        // operation
-        $operation = $this->data->operation();
-
-        return $this->resolveOperationMethod($operation);
+        return $this->resolveOperation($this->data->operation());
     }
-    private function resolveOperationMethod(string $name)
+    private function resolveOperation(string $operation): DriverContract
     {
-        switch ($name){
-            case 'request':
-                return $this->gatewayInstance->request($this->data);
-            case 'verify':
-                return $this->gatewayInstance->verify($this->data);
-            case 'inquiry':
-                return $this->gatewayInstance->inquiry($this->data);
-        }
+        return match ($operation){
+            "request" => $this->driverInstance->request($this->data),
+            "verify" => $this->driverInstance->verify($this->data),
+            "inquiry" => $this->driverInstance->inquiry($this->data)
+        };
     }
 
 }

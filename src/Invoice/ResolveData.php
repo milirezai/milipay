@@ -3,9 +3,9 @@
 namespace Mili\Milipay\Invoice;
 
 use Closure;
-use Mili\Milipay\Contracts\PipelinePay;
+use Mili\Milipay\Contracts\PayPipeline;
 
-class ResolveData implements PipelinePay
+class ResolveData implements PayPipeline
 {
     private mixed $data;
 

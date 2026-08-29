@@ -1,7 +1,7 @@
 
 
+.vscode
 .idea/
-*.xml
 
-.vscode/
-*.gitignore
+
+.gitignore

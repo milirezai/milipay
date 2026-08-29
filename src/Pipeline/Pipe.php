@@ -2,7 +2,7 @@
 
 namespace Mili\Milipay\Pipeline;
 
-use Mili\Milipay\Facades\MilipayRegistry;
+use Mili\Milipay\Facades\Registry;
 use Illuminate\Pipeline\Pipeline;
 
 class Pipe
@@ -12,7 +12,7 @@ class Pipe
     {
         return app(Pipe::class)
             ->send($dataObject)
-            ->through(MilipayRegistry::getPipes())
+            ->through(Registry::getPipes())
             ->via('handle')->thenReturn();
     }
 }
