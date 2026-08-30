@@ -4,7 +4,7 @@ return [
 
     "defaultDriver" => "zibal",
 
-    "driver" => [
+    "drivers" => [
 
         "zibal" => [
             "status" => true,
