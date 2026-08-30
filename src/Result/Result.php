@@ -50,9 +50,9 @@ class Result implements ResponseHandler
         return $this->response->getPayId();
     }
 
-    public function getCodeMessage(): string|null
+    public function getTranslateResponseCode(): string|null
     {
-        return $this->response->getCodeMessage();
+        return $this->response->getTranslateResponseCode();
     }
     public function whenSuccess(Closure $success, Closure $failed)
     {

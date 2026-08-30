@@ -49,10 +49,8 @@ class Response implements ResponseHandler
         return $this->toArray()['trackId'];
     }
 
-    public function getCodeMessage(): string|null
+    public function getTranslateResponseCode(): string|null
     {
-        $codes = pay_config('drivers.zibal.codeMessage');
-        $code = $this->toArray()['result'];
-        return $codes[$code];
+        return translate_response_code($this->toArray()['result'],'zibal');
     }
 }

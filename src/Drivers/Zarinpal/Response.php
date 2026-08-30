@@ -56,11 +56,8 @@ class Response implements ResponseHandler
         return $data['authority'];
     }
 
-    public function getCodeMessage(): string|null
+    public function getTranslateResponseCode(): string|null
     {
-        $codes = pay_config('drivers.zarinpal.codeMessage');
-        $data = (array)$this->toArray()['data'];
-        $code = $data['code'];
-        return $codes[$code];
+        return translate_response_code($this->toArray()['result'],'zarinpal');
     }
 }

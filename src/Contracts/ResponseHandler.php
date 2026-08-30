@@ -18,6 +18,6 @@ interface ResponseHandler
 
     public function getPayId():int|string;
 
-    public function getCodeMessage():string|null;
+    public function getTranslateResponseCode():string|null;
     public function responseTime(): float;
 }
