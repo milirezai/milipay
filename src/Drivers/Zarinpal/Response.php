@@ -1,10 +1,10 @@
 <?php
 
-namespace Milipay\Response\Adapters;
+namespace Mili\Milipay\Drivers\Zarinpal;
 
-use Milipay\Contracts\ResponseHandlerContract;
+use Mili\Milipay\Contracts\ResponseHandler;
 
-class Zarinpal implements ResponseHandlerContract
+class Response implements ResponseHandler
 {
     protected mixed $response;
     public function init(mixed $response): self
@@ -56,11 +56,8 @@ class Zarinpal implements ResponseHandlerContract
         return $data['authority'];
     }
 
-    public function getCodeMessage(): string|null
+    public function getTranslateResponseCode(): string|null
     {
-        $codes = pay_config('drivers.zarinpal.codeMessage');
-        $data = (array)$this->toArray()['data'];
-        $code = $data['code'];
-        return $codes[$code];
+        return translate_response_code($this->toArray()['result'],'zarinpal');
     }
 }

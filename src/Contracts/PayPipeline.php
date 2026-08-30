@@ -1,9 +1,9 @@
 <?php
 
-namespace Milipay\Contracts;
+namespace Mili\Milipay\Contracts;
 use Closure;
 
-interface PipelinePayContract
+interface PayPipeline
 {
     public function handle($data, Closure $next);
 }

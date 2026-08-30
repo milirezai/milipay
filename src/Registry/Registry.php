@@ -1,17 +1,17 @@
 <?php
 
-namespace Milipay\Registry;
+namespace Mili\Milipay\Registry;
 
-use Milipay\Contracts\PayRegistryContract;
+use Mili\Milipay\Contracts\PayRegistry as RegistryContract;
 
-class PayRegistry implements PayRegistryContract
+class Registry implements RegistryContract
 {
-    protected array $drivers;
-    protected array $adapters;
-    protected array $facades;
-    protected array $commands;
-    protected array $pipes;
-    protected array $payloadBuilders;
+    protected array $drivers = [];
+    protected array $adapters = [];
+    protected array $facades = [];
+    protected array $commands = [];
+    protected array $pipes = [];
+    protected array $payloadBuilders = [];
 
     public function drivers(array $drivers): self
     {

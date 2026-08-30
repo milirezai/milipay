@@ -1,8 +1,8 @@
 <?php
 
-namespace Milipay\Contracts;
+namespace Mili\Milipay\Contracts;
 
-interface ResponseHandlerContract
+interface ResponseHandler
 {
     public function init(mixed $response):self;
 
@@ -18,6 +18,6 @@ interface ResponseHandlerContract
 
     public function getPayId():int|string;
 
-    public function getCodeMessage():string|null;
+    public function getTranslateResponseCode():string|null;
     public function responseTime(): float;
 }

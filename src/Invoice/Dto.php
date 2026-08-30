@@ -1,12 +1,12 @@
 <?php
 
-namespace Milipay\Invoice\Dto;
+namespace Mili\Milipay\Invoice;
 
-use Milipay\Contracts\DataExtractContract;
-use Milipay\Contracts\PipelinePayContract;
 use Closure;
+use Mili\Milipay\Contracts\DataExtract;
+use Mili\Milipay\Contracts\PayPipeline;
 
-class Dto implements DataExtractContract, PipelinePayContract
+class Dto implements DataExtract, PayPipeline
 {
     protected mixed $data;
 

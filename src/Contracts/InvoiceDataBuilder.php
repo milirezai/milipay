@@ -1,8 +1,8 @@
 <?php
 
-namespace Milipay\Contracts;
+namespace Mili\Milipay\Contracts;
 
-interface InvoiceDataBuilderContract
+interface InvoiceDataBuilder
 {
     public function request();
     public function verify();
@@ -53,9 +53,9 @@ interface InvoiceDataBuilderContract
 
     public function when(\Closure $closure): self;
     public function via(string $ifTrue, string $ifFalse = ''): self;
-    public function timeout(int $timeout = 5): InvoiceDataBuilderContract;
+    public function timeout(int $timeout = 5): InvoiceDataBuilder;
     public function getTimeout(): int;
-    public function retry(int $retry = 3): InvoiceDataBuilderContract;
+    public function retry(int $retry = 3): InvoiceDataBuilder;
     public function getRetry(): int;
 
 }

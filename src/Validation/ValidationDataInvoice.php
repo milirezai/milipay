@@ -1,16 +1,16 @@
 <?php
 
-namespace Milipay\Validation;
+namespace Mili\Milipay\Validation;
 
 use Illuminate\Validation\ValidationException;
-use Milipay\Contracts\InvoiceDataBuilderContract;
-use Milipay\Exceptions\MilipayException;
+use Mili\Milipay\Contracts\InvoiceDataBuilder;
+use Mili\Milipay\Exceptions\MilipayException;
 use Illuminate\Support\Facades\Validator;
 
 class ValidationDataInvoice
 {
-    protected InvoiceDataBuilderContract $invoice;
-    public function validate(InvoiceDataBuilderContract $invoice)
+    protected InvoiceDataBuilder $invoice;
+    public function validate(InvoiceDataBuilder $invoice)
     {
         $this->invoice = $invoice;
         try {

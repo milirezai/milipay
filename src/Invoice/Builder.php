@@ -1,12 +1,11 @@
 <?php
 
-namespace Milipay\Invoice\Builder;
+namespace Mili\Milipay\Invoice;
 
-use Milipay\Contracts\InvoiceDataBuilderContract;
-use Milipay\Exceptions\MilipayException;
-use Milipay\PayPipe\PayPipe;
+use Mili\Milipay\Contracts\InvoiceDataBuilder;
+use Mili\Milipay\Pipeline\Pipe;
 
-class Builder implements InvoiceDataBuilderContract
+class Builder implements InvoiceDataBuilder
 {
     protected string $driver = '';
     protected string $merchant = '';
@@ -27,7 +26,7 @@ class Builder implements InvoiceDataBuilderContract
     protected int $timeout = 0;
     protected int $retry = 0;
 
-    public function __construct(protected readonly PayPipe $payPipe)
+    public function __construct(protected readonly Pipe $payPipe)
     {}
 
     public function request()
@@ -45,12 +44,12 @@ class Builder implements InvoiceDataBuilderContract
         $this->operation = 'inquiry';
         return $this->payPipe->data($this);
     }
-    public function when(\Closure $closure): InvoiceDataBuilderContract
+    public function when(\Closure $closure): InvoiceDataBuilder
     {
         $this->closure = $closure;
         return $this;
     }
-    public function via(string $ifTrue, string $ifFalse = ''): InvoiceDataBuilderContract
+    public function via(string $ifTrue, string $ifFalse = ''): InvoiceDataBuilder
     {
         $closure = call_user_func($this->closure);
         if ($closure)
@@ -61,7 +60,7 @@ class Builder implements InvoiceDataBuilderContract
         }
         return $this;
     }
-    public function timeout(int $timeout = 5): InvoiceDataBuilderContract
+    public function timeout(int $timeout = 5): InvoiceDataBuilder
     {
         $this->timeout = $timeout;
         return $this;
@@ -70,7 +69,7 @@ class Builder implements InvoiceDataBuilderContract
     {
         return $this->timeout;
     }
-    public function retry(int $retry = 3): InvoiceDataBuilderContract
+    public function retry(int $retry = 3): InvoiceDataBuilder
     {
         $this->retry = $retry;
         return $this;
@@ -80,7 +79,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->retry;
     }
 
-    public function driver(string $driver): InvoiceDataBuilderContract
+    public function driver(string $driver): InvoiceDataBuilder
     {
         $this->driver = $driver;
         return $this;
@@ -94,7 +93,7 @@ class Builder implements InvoiceDataBuilderContract
     {
         return $this->operation;
     }
-    public function payId(mixed $payId): InvoiceDataBuilderContract
+    public function payId(mixed $payId): InvoiceDataBuilder
     {
         $this->payId = $payId;
         return $this;
@@ -104,7 +103,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->payId;
     }
 
-    public function merchant(string $merchant): InvoiceDataBuilderContract
+    public function merchant(string $merchant): InvoiceDataBuilder
     {
         $this->merchant = $merchant;
         return $this;
@@ -115,7 +114,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->merchant;
     }
 
-    public function apiRequest(string $apiRequest): InvoiceDataBuilderContract
+    public function apiRequest(string $apiRequest): InvoiceDataBuilder
     {
         $this->apiRequest = $apiRequest;
         return $this;
@@ -126,7 +125,7 @@ class Builder implements InvoiceDataBuilderContract
        return $this->apiRequest;
     }
 
-    public function apiStart(string $apiStart): InvoiceDataBuilderContract
+    public function apiStart(string $apiStart): InvoiceDataBuilder
     {
        $this->apiStart = $apiStart;
        return $this;
@@ -137,7 +136,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->apiStart;
     }
 
-    public function apiVerify(string $apiVerify): InvoiceDataBuilderContract
+    public function apiVerify(string $apiVerify): InvoiceDataBuilder
     {
         $this->apiVerify = $apiVerify;
         return $this;
@@ -148,7 +147,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->apiVerify;
     }
 
-    public function apiInquiry(string $apiInquiry): InvoiceDataBuilderContract
+    public function apiInquiry(string $apiInquiry): InvoiceDataBuilder
     {
         $this->apiInquiry = $apiInquiry;
         return $this;
@@ -159,7 +158,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->apiInquiry;
     }
 
-    public function callback(string $callbackUrl): InvoiceDataBuilderContract
+    public function callback(string $callbackUrl): InvoiceDataBuilder
     {
        $this->callbackUrl = $callbackUrl;
        return $this;
@@ -170,7 +169,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->callbackUrl;
     }
 
-    public function amount(int $amount): InvoiceDataBuilderContract
+    public function amount(int $amount): InvoiceDataBuilder
     {
         $this->amount = $amount;
         return $this;
@@ -181,7 +180,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->amount;
     }
 
-    public function description(string $description): InvoiceDataBuilderContract
+    public function description(string $description): InvoiceDataBuilder
     {
         $this->description = $description;
         return $this;
@@ -192,7 +191,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->description;
     }
 
-    public function orderId(int $orderId): InvoiceDataBuilderContract
+    public function orderId(int $orderId): InvoiceDataBuilder
     {
        $this->orderId = $orderId;
        return $this;
@@ -203,7 +202,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->orderId;
     }
 
-    public function email(string $email): InvoiceDataBuilderContract
+    public function email(string $email): InvoiceDataBuilder
     {
         $this->email = $email;
         return $this;
@@ -214,7 +213,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->email;
     }
 
-    public function mobile(string $mobile): InvoiceDataBuilderContract
+    public function mobile(string $mobile): InvoiceDataBuilder
     {
         $this->mobile = $mobile;
         return $this;
@@ -225,7 +224,7 @@ class Builder implements InvoiceDataBuilderContract
        return $this->mobile;
     }
 
-    public function nationalCode(int $nationalCode): InvoiceDataBuilderContract
+    public function nationalCode(int $nationalCode): InvoiceDataBuilder
     {
         $this->nationalCode = $nationalCode;
         return $this;
@@ -236,7 +235,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this->nationalCode;
     }
 
-    public function apis(string $apiRequest = '', string $apiStart = '', string $apiVerify = '', $callback = '', $apiInquiry = ''): InvoiceDataBuilderContract
+    public function apis(string $apiRequest = '', string $apiStart = '', string $apiVerify = '', $callback = '', $apiInquiry = ''): InvoiceDataBuilder
     {
         !empty($apiRequest)  ? $this->apiRequest($apiRequest) :'';
         !empty($apiStart) ? $this->apiStart($apiStart) :'';
@@ -247,7 +246,7 @@ class Builder implements InvoiceDataBuilderContract
         return $this;
     }
 
-    public function optional(int $orderId = 0, string $mobile = '', int $nationalCode = 0, string $description = ''): InvoiceDataBuilderContract
+    public function optional(int $orderId = 0, string $mobile = '', int $nationalCode = 0, string $description = ''): InvoiceDataBuilder
     {
         $orderId > 0 ? $this->orderId($orderId) : '';
         !empty($mobile) ? $this->mobile($mobile) :'';

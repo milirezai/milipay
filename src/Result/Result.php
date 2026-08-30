@@ -1,14 +1,14 @@
 <?php
 
-namespace Milipay\Response;
+namespace Mili\Milipay\Result;
 
-use Milipay\Contracts\ResponseHandlerContract;
+use Mili\Milipay\Contracts\ResponseHandler;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 
-class PayResult implements ResponseHandlerContract
+class Result implements ResponseHandler
 {
-    private ResponseHandlerContract $response;
+    private ResponseHandler $response;
 
     public function init(mixed $response): static
     {
@@ -50,9 +50,9 @@ class PayResult implements ResponseHandlerContract
         return $this->response->getPayId();
     }
 
-    public function getCodeMessage(): string|null
+    public function getTranslateResponseCode(): string|null
     {
-        return $this->response->getCodeMessage();
+        return $this->response->getTranslateResponseCode();
     }
     public function whenSuccess(Closure $success, Closure $failed)
     {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Milipay\Facades;
+namespace Mili\Milipay\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class MilipayRegistry extends Facade
+class Registry extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'MilipayRegistry';
+        return 'Registry';
     }
 
 }

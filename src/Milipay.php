@@ -1,16 +1,15 @@
 <?php
 
-namespace Milipay;
+namespace Mili\Milipay;
 
-use Milipay\Invoice\Invoice;
+use Mili\Milipay\Invoice\Invoice;
 
 class Milipay
 {
-    protected Invoice $invoice;
-    public function __construct(Invoice $invoice)
-    {
-        $this->invoice = $invoice;
-    }
+    public function __construct(
+        public readonly Invoice $invoice
+    ){}
+
     public function invoice()
     {
         return $this->invoice->builder();

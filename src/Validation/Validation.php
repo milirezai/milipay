@@ -1,11 +1,11 @@
 <?php
 
-namespace Milipay\Validation;
+namespace Mili\Milipay\Validation;
 
 use Closure;
-use Milipay\Contracts\PipelinePayContract;
+use Mili\Milipay\Contracts\PayPipeline;
 
-class Validation implements PipelinePayContract
+class Validation implements PayPipeline
 {
     public function __construct(
         protected ValidationDataInvoice $validation

@@ -1,11 +1,11 @@
 <?php
 
-namespace Milipay\Invoice\Resolve;
+namespace Mili\Milipay\Invoice;
 
-use Milipay\Contracts\PipelinePayContract;
 use Closure;
+use Mili\Milipay\Contracts\PayPipeline;
 
-class ResolveData implements PipelinePayContract
+class ResolveData implements PayPipeline
 {
     private mixed $data;
 

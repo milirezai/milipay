@@ -1,6 +1,6 @@
 <?php
 
-namespace Milipay\Exceptions;
+namespace Mili\Milipay\Exceptions;
 
 use Exception;
 use Throwable;

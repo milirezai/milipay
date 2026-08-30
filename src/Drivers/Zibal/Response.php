@@ -1,10 +1,10 @@
 <?php
 
-namespace Milipay\Response\Adapters;
+namespace Mili\Milipay\Drivers\Zibal;
 
-use Milipay\Contracts\ResponseHandlerContract;
+use Mili\Milipay\Contracts\ResponseHandler;
 
-class Zibal implements ResponseHandlerContract
+class Response implements ResponseHandler
 {
     protected array $response;
 
@@ -49,10 +49,8 @@ class Zibal implements ResponseHandlerContract
         return $this->toArray()['trackId'];
     }
 
-    public function getCodeMessage(): string|null
+    public function getTranslateResponseCode(): string|null
     {
-        $codes = pay_config('drivers.zibal.codeMessage');
-        $code = $this->toArray()['result'];
-        return $codes[$code];
+        return translate_response_code($this->toArray()['result'],'zibal');
     }
 }

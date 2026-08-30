@@ -1,29 +1,29 @@
 <?php
 
-namespace Milipay\Drivers\Zibal;
+namespace Mili\Milipay\Drivers\Zibal;
 
-use Milipay\Contracts\DataExtractContract;
-use Milipay\Contracts\DriverContract;
-use Milipay\Contracts\ResponseHandlerContract;
-use Milipay\Contracts\PayloadBuilderContract;
-use Milipay\Exceptions\MilipayException;
-use Milipay\Requester\Requester;
-use Milipay\Response\PayResult;
+use Mili\Milipay\Contracts\DataExtract;
+use Mili\Milipay\Contracts\Driver;
+use Mili\Milipay\Contracts\ResponseHandler;
+use Mili\Milipay\Contracts\PayloadBuilder;
+use Mili\Milipay\Exceptions\MilipayException;
+use Mili\Milipay\Requester\Requester;
+use Mili\Milipay\Result\Result;
 
-class Zibal implements DriverContract
+class Zibal implements Driver
 {
     public string $name = 'zibal';
     private mixed $response;
-    private DataExtractContract $data;
+    private DataExtract $data;
 
     public function __construct(
-        protected readonly PayloadBuilderContract  $payloadBuilder,
-        protected readonly ResponseHandlerContract $responseHandler,
-        protected readonly PayResult               $centralResponseManager,
-        protected readonly Requester               $requester,
+        protected readonly PayloadBuilder  $payloadBuilder,
+        protected readonly ResponseHandler $responseHandler,
+        protected readonly Result $centralResponseManager,
+        protected readonly Requester $requester,
     ){}
 
-    public function request(DataExtractContract $data): self
+    public function request(DataExtract $data): self
     {
         $this->data = $data;
         $payloadBuilderData = $this->payloadBuilder->request($this->data);
@@ -33,7 +33,7 @@ class Zibal implements DriverContract
         return $this;
     }
 
-    public function verify(DataExtractContract $data): self
+    public function verify(DataExtract $data): self
     {
         $this->data = $data;
         $payloadBuilderData = $this->payloadBuilder->verify($this->data);
@@ -43,7 +43,7 @@ class Zibal implements DriverContract
         return $this;
     }
 
-    public function inquiry(DataExtractContract $data): self
+    public function inquiry(DataExtract $data): self
     {
         $this->data = $data;
         $payloadBuilderData = $this->payloadBuilder->inquiry($this->data);
@@ -61,12 +61,12 @@ class Zibal implements DriverContract
         $this->response = $httpResponse;
     }
 
-    private function adapt(): ResponseHandlerContract
+    private function adapt(): ResponseHandler
     {
         return $this->responseHandler->init($this->response);
     }
 
-    public function response(): ResponseHandlerContract
+    public function response(): ResponseHandler
     {
         return $this->centralResponseManager->init($this->adapt());
     }
