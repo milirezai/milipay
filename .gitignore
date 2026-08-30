@@ -1,7 +1,5 @@
 
-
-.vscode
-.idea/
-
-
 .gitignore
+.DS_Store
+.vscode
+.idea

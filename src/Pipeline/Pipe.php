@@ -10,7 +10,7 @@ class Pipe
 
     public function data(mixed $dataObject)
     {
-        return app(Pipe::class)
+        return app(Pipeline::class)
             ->send($dataObject)
             ->through(Registry::getPipes())
             ->via('handle')->thenReturn();
