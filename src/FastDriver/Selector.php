@@ -2,8 +2,6 @@
 
 namespace Mili\Milipay\FastDriver;
 
-use Mili\Milipay\FastDriver\Config\ConfigReader;
-
 class Selector
 {
     public function __construct(
@@ -11,5 +9,9 @@ class Selector
     ){}
     public function select()
     {
+    }
+    public function hd()
+    {
+
     }
 }

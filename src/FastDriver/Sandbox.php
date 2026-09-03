@@ -2,7 +2,7 @@
 
 namespace Mili\Milipay\FastDriver;
 
-use Mili\Milipay\FastDriver\Config\ConfigReader;
+use Mili\Milipay\FastDriver\ConfigReader;
 use Mili\Milipay\Exceptions\MilipayException;
 
 class Sandbox

@@ -2,10 +2,10 @@
 
 namespace Mili\Milipay\FastDriver\Storage;
 
-use Mili\Milipay\FastDriver\Storage\Local\Local;
-use Mili\Milipay\FastDriver\Storage\Mysql\Mysql;
-use Mili\Milipay\FastDriver\Contracts\Storage as StorageContract;
-use Mili\Milipay\FastDriver\Config\ConfigReader;
+use Mili\Milipay\Contracts\Storage as StorageContract;
+use Mili\Milipay\Exceptions\MilipayException;
+use Mili\Milipay\FastDriver\ConfigReader;
+use Mili\Milipay\FastDriver\Storage\Local;
 
 class Storage
 {
@@ -17,7 +17,7 @@ class Storage
     {
         return match ($this->configReader->storages()['default']){
             'local' => app(Local::class),
-            "mysql" => app(Mysql::class)
+            default => throw new MilipayException('fast driver storage disk not supported'),
         };
     }
 }
