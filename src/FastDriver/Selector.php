@@ -5,13 +5,11 @@ namespace Mili\Milipay\FastDriver;
 class Selector
 {
     public function __construct(
-        protected readonly ConfigReader $configReader
+        protected readonly Comparison $comparison,
+        protected readonly Storage $storage
     ){}
-    public function select()
+    public function fast(): string
     {
-    }
-    public function hd()
-    {
-
+        return $this->comparison->compare($this->storage->defaultDisk()->get());
     }
 }
