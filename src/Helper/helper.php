@@ -1,13 +1,21 @@
 <?php
 
-use Mili\Milipay\Exceptions\MilipayException;
 
-if (!function_exists('pay_config')){
-    function pay_config(string $key)
+use Illuminate\Support\Facades\Log;
+
+if (! function_exists('pay_config')) {
+    function pay_config(string $key, mixed $default = null): mixed
     {
-        if (!file_exists(config_path('pay.php')))
-            throw new MilipayException('config not published',404);
-        return config('pay.'.$key);
+        $publishedConfig = config_path('pay.php');
+
+        if (file_exists($publishedConfig)) {
+            return config("pay.{$key}", $default);
+        }
+
+        Log::warning('pay config not published','');
+        $packageConfig = require __DIR__ . '/../../pay.php';
+
+        return data_get($packageConfig, $key, $default);
     }
 }
 
