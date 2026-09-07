@@ -13,6 +13,9 @@ use Mili\Milipay\Drivers\Zibal\Zibal;
 use Mili\Milipay\Drivers\Zibal\PayloadBuilder as ZibalPayloadBuilder;
 use Mili\Milipay\Facades\Registry as FacadeRegistry;
 use Mili\Milipay\Registry\Registry;
+use Mili\Milipay\Jobs\ProbeDriver;
+use Illuminate\Console\Scheduling\Schedule;
+use Mili\Milipay\Probe\ConfigReader;
 
 class MilipayServiceProvider extends ServiceProvider
 {
@@ -76,5 +79,23 @@ class MilipayServiceProvider extends ServiceProvider
             \Mili\Milipay\Drivers\Zibal\PayloadBuilder::class,
             \Mili\Milipay\Drivers\Zarinpal\PayloadBuilder::class,
         ]);
+
+        // fast driver
+
+        $this->app->booted(function () {
+            $configReader = $this->app->make(ConfigReader::class);
+
+            if (! $configReader->enabled() || ! $this->app->bound(Schedule::class)) {
+                return;
+            }
+
+            $this->app->make(Schedule::class)
+                ->job(new ProbeDriver())
+                ->cron(sprintf('*/%d * * * *', max(1, $configReader->every())))
+                ->name('milipay-fast-driver-probe')
+                ->withoutOverlapping()
+                ->description('Probes MiliPay gateways in the sandbox for FastDriver');
+        });
+
     }
 }

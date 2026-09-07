@@ -2,6 +2,7 @@
 
 namespace Mili\Milipay\FastDriver;
 
+
 class Comparison
 {
     public function compare(array $data): string

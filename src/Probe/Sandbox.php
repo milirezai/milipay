@@ -1,8 +1,7 @@
 <?php
 
-namespace Mili\Milipay\FastDriver;
+namespace Mili\Milipay\Probe;
 
-use Mili\Milipay\FastDriver\ConfigReader;
 use Mili\Milipay\Exceptions\MilipayException;
 
 class Sandbox

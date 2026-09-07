@@ -4,7 +4,7 @@ namespace Mili\Milipay\FastDriver\Storage;
 
 use Illuminate\Support\Facades\File;
 use Mili\Milipay\Contracts\Storage;
-use Mili\Milipay\FastDriver\ConfigReader;
+use Mili\Milipay\Probe\ConfigReader;
 
 class Local implements Storage
 {

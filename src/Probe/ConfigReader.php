@@ -1,6 +1,6 @@
 <?php
 
-namespace Mili\Milipay\FastDriver;
+namespace Mili\Milipay\Probe;
 
 class ConfigReader
 {

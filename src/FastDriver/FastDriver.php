@@ -3,6 +3,9 @@
 namespace Mili\Milipay\FastDriver;
 
 use Mili\Milipay\Exceptions\MilipayException;
+use Mili\Milipay\Probe\ConfigReader;
+use Mili\Milipay\Probe\Probe;
+use Mili\Milipay\FastDriver\Storage\Storage;
 
 class FastDriver
 {
@@ -17,7 +20,7 @@ class FastDriver
     {
         return $this->selector->fast();
     }
-    protected function probes(): self
+    public function probes(): void
     {
         $result = [];
         $this->storage->defaultDisk()->refresh();
@@ -27,9 +30,8 @@ class FastDriver
             }
         }
          $this->storage->defaultDisk()->save($result);
-         return $this;
     }
-    public function selectFastDriver(string $default = null): string
+    public function selectDriver(string $default = null): string
     {
         if ($this->configReader->enabled())
             return $this->fasts();

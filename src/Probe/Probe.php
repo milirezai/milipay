@@ -1,8 +1,8 @@
 <?php
 
-namespace Mili\Milipay\FastDriver;
-use Mili\Milipay\Milipay;
+namespace Mili\Milipay\Probe;
 use Illuminate\Http\Client\ConnectionException;
+use Mili\Milipay\Milipay;
 
 class Probe
 {

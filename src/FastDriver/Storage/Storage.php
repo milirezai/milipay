@@ -4,8 +4,7 @@ namespace Mili\Milipay\FastDriver\Storage;
 
 use Mili\Milipay\Contracts\Storage as StorageContract;
 use Mili\Milipay\Exceptions\MilipayException;
-use Mili\Milipay\FastDriver\ConfigReader;
-use Mili\Milipay\FastDriver\Storage\Local;
+use Mili\Milipay\Probe\ConfigReader;
 
 class Storage
 {

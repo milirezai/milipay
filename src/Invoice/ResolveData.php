@@ -24,7 +24,7 @@ class ResolveData implements PayPipeline
     {
         // resolve driver
         if (empty($this->data->getDriver()))
-            $this->data->driver($this->fastDriver->selectFastDriver(default: pay_config('defaultDriver')));
+            $this->data->driver($this->fastDriver->selectDriver(default: pay_config('defaultDriver')));
         // resolve api request
         if (empty($this->data->getApiRequest()))
             $this->data->apiRequest(pay_config('drivers.'.$this->data->getDriver().'.api.request'));
