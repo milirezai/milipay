@@ -1,6 +1,7 @@
 <?php
 
 namespace Mili\Milipay\FastDriver;
+use Mili\Milipay\FastDriver\Storage\Storage;
 
 class Selector
 {
