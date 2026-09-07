@@ -22,9 +22,8 @@ if (!function_exists('response_time')){
 if (!function_exists('translate_response_code')){
     function translate_response_code(int $code, string $driver): string|null
     {
-        $file = __DIR__.'/../../translateResponseCode.php';
-        $translateCode = file_get_contents($file);
-        $message = $translateCode[$driver]['codeMessage'][$code];
+        $file = require __DIR__.'/../../translateResponseCode.php';
+        $message = $file[$driver]['codeMessage'][$code];
         if ($message)
             return $message;
         else
