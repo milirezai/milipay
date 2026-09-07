@@ -1,4 +1,3 @@
-
 <h3 align="center">
 Milipay
 </h3>
@@ -19,6 +18,8 @@ Milipay
 ![GitHub Issues](https://img.shields.io/github/issues/milirezai/milipay?style=flat&logo=github)
 
 </p>
+
+
 
 
 وقتی دنبال پکیج واسه اتصال به درگاه های پرداخت گشتم پکیج درست درمونی نبود که همزمان سینتکس لاراولی داشته باشه،کنترل کامل روی پاسخ ها درگاه داشته باشم،کنترل خوبی روی خطا ها داشته باشه و از همه مهم تر یک ساختار  و معماری درست داشته باشه پس منم تصمیم
@@ -114,6 +115,7 @@ php artisan vendor:publish --tag=milipay-config
                 'inquiry' => 'https://gateway.zibal.ir/v1/inquiry', // برای استعلام پرداخت ها از این مقدار استفاده میشه
                 "callbackUrl" => 'app/callback' // این مقدار رو هم توی فایل کانفیگ می تونید مقدار دهی کنید و هم هنگام پرداخت با متد ها مختلفی که براش در نظر گرفته شده ، بعد از پرداخت درگاه کاربر رو به این بخش هدایت می کنه
             ]
+
         ]
 
 
@@ -308,6 +310,74 @@ $response->response()->whenSuccess(function ($response){ // ممکن است بخ
 $response->response()->responseTime(); // میتونید تایم یک درخواست رو ببینید
 
 ```
+
+<br>
+<h3>درایور سریع (Fast Driver)</h3>
+
+<br>
+
+گاهی وقت‌ها یه درگاه ممکنه کندتر از درگاه دیگه جواب بده، Fast Driver این قابلیت رو بهتون میده که پکیج به صورت خودکار درگاهی رو انتخاب کنه که این روزها سریع‌تر جواب می‌ده، به جای اینکه شما همیشه یک درایور ثابت رو دستی ست کنید
+
+نحوه کارش اینجوریه: یک جاب زمان‌بندی شده (با استفاده از Scheduler خود لاراول) هر چند دقیقه یک بار به صورت واقعی به درگاه‌های داخل sandbox درخواست می‌زنه (probe می‌کنه) و زمان پاسخ هر کدوم رو ذخیره می‌کنه، وقتی هم شما درخواست پرداخت می‌زنید و درایور رو دستی ست نکرده باشید، پکیج بین درایورهایی که probe شدن اونی که میانگین زمان پاسخش کمتره رو انتخاب می‌کنه
+
+برای فعال شدنش کافیه توی فایل کانفیگ enabled رو true کنید
+
+```php
+'fastDriver' => [
+
+    'enabled' => true, // فعال یا غیرفعال بودن انتخاب خودکار سریع‌ترین درایور
+    'every' => 15, // هر چند دقیقه یک بار درگاه‌ها probe بشن (کرون هر ۱۵ دقیقه)
+    'numberOfProbePerDriver' => 4, // هر بار probe، هر درایور چند بار پینگ بشه تا میانگین دقیق‌تری بدست بیاد
+
+    'storages' => [
+        'default' => 'local', // دیسکی که نتیجه probe ها توش ذخیره میشه
+        'disks' => [
+            'local' => [
+                'root' => storage_path('logs/probe.log') // مسیر فایلی که نتیجه probe ها توش نوشته میشه
+            ],
+        ],
+    ],
+
+    'sandbox' => [
+        'drivers' => [
+            'zibal' => [
+                'merchant' => 'zibal',
+                'amount' => rand(1000000, 9000000), // چون خیلی از درگاه‌ها مبلغ ثابت رو رد می‌کنن بهتره رندوم باشه
+                'description' => 'ping driver zibal',
+                'timeout' => 7,
+                'retry' => 2,
+                'api' => [
+                    'request' => 'https://gateway.zibal.ir/v1/request',
+                    'callbackUrl' => 'https://github.com/milirezai/milipay'
+                ]
+            ],
+            'zarinpal' => [
+                'merchant' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+                'amount' => rand(1000000, 9000000),
+                'description' => 'ping driver zarinpal',
+                'timeout' => 7,
+                'retry' => 2,
+                'api' => [
+                    'request' => 'https://sandbox.zarinpal.com/pg/v4/payment/request.json',
+                    'callbackUrl' => 'https://github.com/milirezai/milipay'
+                ]
+            ]
+        ]
+    ]
+],
+```
+
+نکته مهم: چون probe کردن از طریق زمان‌بند لاراول اجرا میشه، باید مطمئن بشید کرون سرورتون دستور `schedule:run` رو هر دقیقه صدا می‌زنه، وگرنه هیچ probe ای انجام نمیشه و نتیجه‌ای هم برای انتخاب سریع‌ترین درایور وجود نخواهد داشت
+
+اگه enabled رو false بذارید یا هنوز هیچ probe ای انجام نشده باشه، پکیج برمی‌گرده سراغ همون defaultDriver که توی کانفیگ ست کردید
+
+```php
+Milipay::invoice()
+    ->amount(2000000)
+    ->request(); // چون درایور ست نشده، اگه fastDriver فعال باشه سریع‌ترین درگاه انتخاب میشه، وگرنه defaultDriver
+```
+
+اگه بخواید یه دیسک ذخیره‌سازی دیگه (به جز local) اضافه کنید، کافیه یک کلاس بسازید که اینترفیس `Mili\Milipay\Contracts\Storage` رو پیاده‌سازی کنه (متدهای save ، get و refresh) و داخل `FastDriver\Storage\Storage::defaultDisk()` به match اضافه‌ش کنید
 
 ```php
 milirezaix@gmail.com
