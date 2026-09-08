@@ -12,7 +12,7 @@ if (! function_exists('pay_config')) {
             return config("pay.{$key}", $default);
         }
 
-        Log::warning('pay config not published','');
+        Log::warning('pay config not published',[]);
         $packageConfig = require __DIR__ . '/../../pay.php';
 
         return data_get($packageConfig, $key, $default);
