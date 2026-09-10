@@ -7,7 +7,6 @@ use Mili\Milipay\Milipay;
 class Probe
 {
     public function __construct(
-        protected readonly Milipay $milipay,
         protected readonly Sandbox $sandbox,
         protected readonly Result $result
     ){}
@@ -18,7 +17,7 @@ class Probe
 
         try {
 
-            $response =  $this->milipay->invoice()
+            $pay =  app(Milipay::class)->invoice()
                 ->driver($sandbox->driver())
                 ->merchant($sandbox->merchant())
                 ->apiRequest($sandbox->apiRequest())
@@ -27,8 +26,8 @@ class Probe
                 ->description($sandbox->description())
                 ->timeout($sandbox->timeout())
                 ->retry($sandbox->retry())
-                ->request()->response();
-            return  $this->result->init($sandbox->driver(),$response->responseTime())->get();
+                ->request();
+            return  $this->result->init($sandbox->driver(),$pay->response()->responseTime())->get();
 
         }catch (ConnectionException $e) {
             return  $this->result->init($sandbox->driver(),null)->get();

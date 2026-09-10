@@ -50,7 +50,7 @@ return
         'fastDriver' =>
             [
 
-                'enabled' => true,
+                'enabled' => false,
                 'every' => 15,
                 'numberOfProbePerDriver' => 4,
                 'storages' =>
@@ -74,7 +74,7 @@ return
                                         "merchant" => 'zibal',
                                         "amount" => rand(1000000,9000000),
                                         "description" => "ping driver zibal",
-                                        'timeout' => 7,
+                                        'timeout' => 8,
                                         'retry' => 2,
                                         'api' =>
                                             [
@@ -87,7 +87,7 @@ return
                                         'merchant' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
                                         "amount" => rand(1000000,9000000),
                                         "description" => "ping driver zarinpal",
-                                        'timeout' => 7,
+                                        'timeout' => 8,
                                         'retry' => 2,
                                         'api' =>
                                             [

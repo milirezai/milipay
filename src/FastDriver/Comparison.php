@@ -16,12 +16,16 @@ class Comparison
             $sumTime[$driver] = $this->resolveTime($times) / count($times);
         }
         if (empty($sumTime))
-            throw new MilipayException('no successful probe result found for fast driver');
+            return $this->ifProbeEmpty();
 
         return array_search(min($sumTime), $sumTime);
     }
     private function resolveTime(array $times): int
     {
         return array_sum(array_values($times));
+    }
+    protected function ifProbeEmpty(): string
+    {
+        return pay_config('defaultDriver');
     }
 }
