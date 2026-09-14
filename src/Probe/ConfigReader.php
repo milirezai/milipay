@@ -14,7 +14,7 @@ class ConfigReader
     }
     public function every(): int
     {
-        return (int) ($this->read()['every'] ?? 15);
+        return (int) ($this->read()['every'] ?? 5);
     }
     public function sandbox(): array
     {

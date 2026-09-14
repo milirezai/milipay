@@ -51,7 +51,7 @@ return
             [
 
                 'enabled' => false,
-                'every' => 15,
+                'every' => 5,
                 'numberOfProbePerDriver' => 4,
                 'storages' =>
                     [

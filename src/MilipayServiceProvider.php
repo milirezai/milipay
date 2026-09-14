@@ -50,7 +50,7 @@ class MilipayServiceProvider extends ServiceProvider
             return $this->app->make(Milipay::class);
         });
 
-        $this->app->bind('Registry',function (){
+        $this->app->singleton('Registry',function (){
             return $this->app->make(Registry::class);
         });
 
