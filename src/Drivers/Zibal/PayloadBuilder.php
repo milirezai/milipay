@@ -43,7 +43,7 @@ class PayloadBuilder implements PayloadBuilderContract
     private function resolveFilter(array $data)
     {
         return collect($data)->filter(function ($item){
-            return !empty($item) & $item > 0;
+            return !empty($item) && $item > 0;
         })->toArray();
     }
 }

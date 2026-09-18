@@ -25,7 +25,7 @@ class FastDriver
         $result = [];
         $this->storage->defaultDisk()->refresh();
         foreach ($this->configReader->sandboxDrivers() as $driver){
-            for ($i=0; $this->configReader->numberOfProbePerDriver() >= $i;$i++){
+            for ($i=0; $this->configReader->numberOfProbePerDriver() < $i;$i++){
                 $result[$driver][] = $this->probe->for($driver)['time'];
             }
         }
